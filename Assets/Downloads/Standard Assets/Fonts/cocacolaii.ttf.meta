@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 5cbcbfee1888463449de29e08820ac37
+timeCreated: 1523237046
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Coca Cola ii
+  fontNames:
+  - Coca Cola ii
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

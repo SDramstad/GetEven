@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: b0dd646f73c6aa84382a11c8fba8ad02
+timeCreated: 1523236727
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: MegaMan 2
+  fontNames:
+  - MegaMan 2
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

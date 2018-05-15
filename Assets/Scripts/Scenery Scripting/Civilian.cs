@@ -1,0 +1,84 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Civilian : AbstractTakesDamage {
+
+    public UIManager _ui;
+
+    [SerializeField]
+    private string characterName;
+    [SerializeField]
+    private string characterDialogue;
+    [SerializeField]
+    private string painDialogue;
+    [SerializeField]
+    private float durationDialogue;
+    [SerializeField]
+    private float durationPainDialogue;
+    [SerializeField]
+    private AudioClip speechNoise;
+    [SerializeField]
+    private AudioClip painSound;
+
+    private bool _isInBounds;
+
+    //public ParticleSystem painGFX;
+
+
+    void Start()
+    {
+        _ui = GameObject.Find("UIManager").GetComponent<UIManager>();
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name == "Player")
+        {            
+            _isInBounds = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name == "Player")
+        {
+            
+            _isInBounds = false;
+        }
+    }
+
+    // Update is called once per frame
+    protected void Update () {
+        if (_isInBounds)
+        {
+            //otherwise we can take input
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                //Debug.Log("Conversation starts here.");
+                GetComponent<AudioSource>().PlayOneShot(speechNoise);
+                _ui.SetConversationText(characterName, characterDialogue, durationDialogue);
+
+            }
+        }
+    }
+
+    //public void PlayDialogue(string header, string dialogue)
+    //{
+    //    GetComponent<AudioSource>().PlayOneShot(speechNoise);
+    //    _ui.SetConversationText(header, dialogue);
+    //}
+
+    //public void PlayDialogue(string header, string dialogue, AudioClip audio)
+    //{
+    //    GetComponent<AudioSource>().PlayOneShot(audio);
+    //    _ui.SetConversationText(header, dialogue);
+    //}
+
+    public override void TakeDamage(int damage = 5)
+    {
+        GetComponent<AudioSource>().PlayOneShot(painSound);
+        _ui.SetConversationText(characterName, painDialogue);
+    }
+
+}
