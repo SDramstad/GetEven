@@ -9,6 +9,7 @@ public class DeathMenu : MonoBehaviour {
     public void RetryLevel()
     {
         Time.timeScale = 1f;
+        GameObject.Find("Player").GetComponent<Player>().localPlayerData = GlobalControl.Instance.savedPlayerData;
         Scene thisScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(thisScene.buildIndex);
     }

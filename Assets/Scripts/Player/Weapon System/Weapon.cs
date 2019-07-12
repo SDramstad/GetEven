@@ -6,20 +6,23 @@ using UnityEngine;
 public class Weapon : MonoBehaviour {
 
     public float fireRate;
+    public float baseFireRate;
     public AudioClip attackSound;
     public AudioClip dry_attackSound;
-    public ParticleSystem hitFX;
+    public GameObject hitFX;
     protected float lastFireTime;
     float zoomFactor = 2f;
     float zoomSpeed = 2f;
     float zoomFOV;
     public int range;
     public int damage;
-    public Ammo ammo;
+    protected Ammo ammo;
     public TextMesh ammoDisplay;
     public UIManager uiManager;
     private GameObject crosshair_notarget;
     private GameObject crosshair_target;
+    public GameObject muzzleFlashGFX;
+    public GameObject bulletExitPoint;
 
     //the amount of push to the camera when firing
     public int recoil;
@@ -30,10 +33,20 @@ public class Weapon : MonoBehaviour {
     public int force;
     
 
+    void Awake()
+    {
+        baseFireRate = fireRate;
+    }
 	// Use this for initialization
 	void Start () {
         zoomFOV = Constants.CameraDefaultZoom / zoomFactor;
-        ammo = GameObject.Find("AmmoManager").GetComponent<Ammo>();
+        //Depreciated, ammo is stored within localPlayerData now
+        //ammo = GameObject.Find("AmmoManager").GetComponent<Ammo>();
+        ammo = GameObject.Find("Player").GetComponent<Ammo>();
+        if (ammo == null)
+        {
+            Debug.Log("Ammo is null.");
+        }
         lastFireTime = Time.time - 10;
         originalCameraPos = Camera.main.transform.rotation;
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
@@ -48,7 +61,7 @@ public class Weapon : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, range))
         {
-            if (hit.collider.gameObject.GetComponent<AbstractTakesDamage>())
+            if (hit.collider.gameObject.GetComponent<A_TakesDamage>())
             {
                 uiManager.CrosshairTargetInSight(true);
             }
@@ -63,9 +76,9 @@ public class Weapon : MonoBehaviour {
         }
 
         //for weapons with ammo, do this (may want to turn into an abstract class honestly)
-        if (GetComponent<Pistol>() || GetComponent<Shotgun>() || GetComponent<Rifle>())
+        if (GetComponent<Pistol>() || GetComponent<Shotgun>() || GetComponent<Rifle>() || GetComponent<Rocketgun>())
         {
-           GetComponentInChildren<TextMesh>().text = ammo.GetAmmo(tag).ToString();
+            GetComponentInChildren<TextMesh>().text = ammo.GetAmmo(tag).ToString();
         }
         
 
@@ -89,13 +102,13 @@ public class Weapon : MonoBehaviour {
             GetComponent<AudioSource>().PlayOneShot(attackSound);
 
             //if weapon is not knife, use ammo
+            //also display muzzle flash
             if (!GetComponent<Knife>())
             {
                 ammo.ConsumeAmmo(tag);
-
-
+                GameObject tmp = Instantiate(muzzleFlashGFX, bulletExitPoint.transform.position, bulletExitPoint.transform.rotation);
+                Destroy(tmp, 2f);
             }
-            //GetComponentInChildren<Animator>().Play("Fire");
 
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
@@ -109,7 +122,7 @@ public class Weapon : MonoBehaviour {
                 {
                     hit.rigidbody.AddForceAtPosition(force * transform.forward, hit.point);
                 }
-                ParticleSystem _tempParticleSystem = Instantiate(hitFX, hit.point, transform.rotation);
+                GameObject _tempParticleSystem = Instantiate(hitFX, hit.point, transform.rotation);
                 Destroy(_tempParticleSystem, 2f);
                 processHit(hit.collider.gameObject, hit);
             }
@@ -124,46 +137,16 @@ public class Weapon : MonoBehaviour {
     }
 
 
-    private void processHit(GameObject hitObject, RaycastHit location)
+    protected void processHit(GameObject hitObject, RaycastHit location)
     {
         Debug.Log(hitObject.name + " was hit.");
-
-        //this section should be using a fucking interface but i need to look in that more
         
-        if (hitObject.GetComponent<AbstractTakesDamage>() != null)
+        if (hitObject.GetComponent<A_TakesDamage>() != null)
         {
-            hitObject.GetComponent<AbstractTakesDamage>().TakeDamage(damage);
-            ParticleSystem _tempParticleSystem = Instantiate(hitObject.GetComponent<AbstractTakesDamage>().painGFX, location.point, Quaternion.identity);
+            hitObject.GetComponent<A_TakesDamage>().TakeDamage(damage);
+            ParticleSystem _tempParticleSystem = Instantiate(hitObject.GetComponent<A_TakesDamage>().painGFX, location.point, Quaternion.identity);
             Destroy(_tempParticleSystem, 2f);
         }
-        /*
-        if (hitObject.GetComponent<Enemy>() != null)
-        {
-            hitObject.GetComponent<Enemy>().TakeDamage(damage);
-            ParticleSystem _tempParticleSystem = Instantiate(hitObject.GetComponent<Enemy>().painGFX, location.point, Quaternion.identity);
-            Destroy(_tempParticleSystem, 2f);
-        }
-
-        if (hitObject.GetComponent<HelicopterBoss>() != null)
-        {
-            hitObject.GetComponent<HelicopterBoss>().TakeDamage(damage);
-            ParticleSystem _tempParticleSystem = Instantiate(hitObject.GetComponent<HelicopterBoss>().painGFX, location.point, Quaternion.identity);
-            Destroy(_tempParticleSystem, 2f);
-        }
-
-        if (hitObject.GetComponent<Civilian>() != null)
-        {
-            hitObject.GetComponent<Civilian>().TakeDamage();
-            ParticleSystem _tempParticleSystem = Instantiate(hitObject.GetComponent<Civilian>().painGFX, location.point, Quaternion.identity);
-            Destroy(_tempParticleSystem, 2f);
-        }
-
-        if (hitObject.GetComponent<ExplosiveBarrel>() != null)
-        {
-            Debug.Log("Explosive barrel got hit.");
-            hitObject.GetComponent<ExplosiveBarrel>().TakeDamage(damage);
-        }
-        */
 
     }
 }

@@ -32,6 +32,10 @@ public class UIManager : MonoBehaviour {
     private GameObject _deathPanel;
     [SerializeField]
     private Image _crosshair;
+    [SerializeField]
+    private Text _loadingText;
+    [SerializeField]
+    private Text _loadTipText;
 
     private GameObject player;
 
@@ -130,16 +134,17 @@ public class UIManager : MonoBehaviour {
 
     public void SetPickUpText(string displayText)
     {
-        _dialoguePanel.GetComponent<Image>().enabled = true;
-        _dialogueText.GetComponent<Text>().enabled = true;
-        _dialogueNameText.GetComponent<Text>().enabled = true;
+        //_dialoguePanel.GetComponent<Image>().enabled = true;
+        //_dialogueText.GetComponent<Text>().enabled = true;
+        //_dialogueNameText.GetComponent<Text>().enabled = true;
 
-        _dialogueNameText.text = "";
-        _dialogueText.text = displayText.ToUpper();
+        //_dialogueNameText.text = "";
+        //_dialogueText.text = displayText.ToUpper();
 
-        StopCoroutine("HidePickUpText");
-        StopCoroutine("HideConversation");
-        StartCoroutine("HidePickUpText");
+        //StopCoroutine("HidePickUpText");
+        //StopCoroutine("HideConversation");
+        //StartCoroutine("HidePickUpText");
+        SetPDAText("PICK UP", displayText, 3f);
     }
 
     IEnumerator HidePickUpText()
@@ -217,17 +222,36 @@ public class UIManager : MonoBehaviour {
         _fullScreen.GetComponent<Image>().color = Color.black;
         _fullScreenText.color = Color.white;
         _fullScreenText.text = text;
-        //player.GetComponent<FirstPersonController>().enabled = false;
+        _loadingText.text = "";
 
         StartCoroutine("HideFullscreen");
     }
 
-    IEnumerator HideFullscreen()
+    public void SetLoadingScreen()
     {
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+        string tips = GlobalControl.Instance.tips[Random.Range(0, GlobalControl.Instance.tips.Length)];
+        SetFullscreenBlack(tips);
+        _loadingText.text = "LOADING...";
+        StopAllCoroutines();
+    }
+
+    public void HideLoadingScreen()
+    {
         _fullScreen.GetComponent<Image>().color = Color.clear;
         _fullScreenText.color = Color.clear;
         _fullScreenText.text = "";
+        _loadingText.text = "";
+        _fullScreen.GetComponent<Image>().enabled = false;
+        Time.timeScale = 1;
+    }
+
+    IEnumerator HideFullscreen()
+    {
+        yield return new WaitUntil(() => Input.GetButtonDown("Interact"));
+        _fullScreen.GetComponent<Image>().color = Color.clear;
+        _fullScreenText.color = Color.clear;
+        _fullScreenText.text = "";
+        _loadingText.text = "";
         _fullScreen.GetComponent<Image>().enabled = false;
         Time.timeScale = 1;
         //player.GetComponent<FirstPersonController>().enabled = true;
@@ -330,7 +354,6 @@ public class UIManager : MonoBehaviour {
         {
             //show the pause menu
             Time.timeScale = 0.0f;
-
 
             GlobalGame.pauseMenuActive = true;
 

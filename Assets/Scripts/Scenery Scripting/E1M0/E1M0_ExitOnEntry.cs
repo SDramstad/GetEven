@@ -9,7 +9,7 @@ public class E1M0_ExitOnEntry : I_EnterTrigger {
 
     bool startedLoading;
 
-    public GameObject player;
+    public Player player;
 	
 	// Update is called once per frame
 	void Update () {
@@ -20,6 +20,10 @@ public class E1M0_ExitOnEntry : I_EnterTrigger {
             //{
             //    StartCoroutine(LoadScene());
             //}
+            player = GameObject.Find("Player").GetComponent<Player>();
+            player.SavePlayer();
+            UIManager _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+            _uiManager.SetLoadingScreen();
             SceneManager.LoadScene("E1M1");
         }
 	}

@@ -19,42 +19,42 @@ public class PickUpAmmo : I_EnterTrigger {
     void Start()
     {
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        _ammo = GameObject.Find("AmmoManager").GetComponent<Ammo>();
+        _ammo = GameObject.Find("Player").GetComponent<Ammo>();
     }
 
 	void Update () {
 
         if (checkBounds())
         {
-
-            if (Input.GetKeyDown(KeyCode.E))
+            if (!_ammo.IsFull(ammoType))
             {
-                if (!_ammo.IsFull(ammoType))
+                switch (ammoType)
                 {
-                    switch (ammoType)
-                    {
 
-                        case "Handgun":
-                            _ammo.AddAmmo("Handgun", ammoAmount);
-                            break;
-                        case "Shotgun":
-                            _ammo.AddAmmo("Shotgun", ammoAmount);
-                            break;
-                        case "Rifle":
-                            _ammo.AddAmmo("Rifle", ammoAmount);
-                            break;
-                        default:
-                            break;
-                    }
-                    _uiManager.SetPickUpText("Picked up " + ammoAmount + " " + ammoType.ToLower() + " ammo.");
-                    GetComponent<AudioSource>().PlayOneShot(_ammoPickupSound);
-                    Destroy(gameObject);
+                    case "Handgun":
+                        _ammo.AddAmmo("Handgun", ammoAmount);
+                        break;
+                    case "Shotgun":
+                        _ammo.AddAmmo("Shotgun", ammoAmount);
+                        break;
+                    case "Rifle":
+                        _ammo.AddAmmo("Rifle", ammoAmount);
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    _uiManager.SetPickUpText("Can't pick up " + ammoType + ", already full.");
-                }
+                _uiManager.SetPickUpText("Picked up " + ammoAmount + " " + ammoType.ToLower() + " ammo.");
+                GetComponent<AudioSource>().PlayOneShot(_ammoPickupSound);
+                Destroy(gameObject);
             }
+            else
+            {
+                _uiManager.SetPickUpText("Can't pick up " + ammoType + ", already full.");
+            }
+            //if (Input.GetButtonDown("Interact"))
+            //{
+
+            //}
         }
 
     }

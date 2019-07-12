@@ -2,23 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.SceneManagement;
+using System;
 
 public class Game : MonoBehaviour {
 
     public UIManager uiManager;
     public WeaponSwitcher weaponSwitcher;
     public Player player;
+    public AreaData localAreaData;
+
+    //true to allow for alternate death conditions, such as losing a fight but the story still progressing
+    public bool alternateGameOver;
 
 	// Use this for initialization
 	void Start () {
-		//public GameObject deathPanel = GameObject.Find("DeathPanel").GetComponent<
+
+        localAreaData = GlobalControl.Instance.savedAreaData[SceneManager.GetActiveScene().buildIndex];
+        if (GetComponent<A_HandleFlags>() != null)
+        {
+            GetComponent<A_HandleFlags>().handleFlags();
+        }
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void GameOver()
     {
         Time.timeScale = 0.0f;
@@ -27,5 +33,10 @@ public class Game : MonoBehaviour {
         Cursor.lockState = CursorLockMode.None;
         uiManager.DisplayDeathMenu();
 
+    }
+
+    internal void SaveArea()
+    {
+        GlobalControl.Instance.savedAreaData[SceneManager.GetActiveScene().buildIndex] = localAreaData;
     }
 }

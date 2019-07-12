@@ -11,8 +11,26 @@ public class Constants
     public const string Shotgun = "Shotgun";
     public const string Unarmed = "Unarmed";
     public const string Rifle = "Rifle";
+    public const string Rocketgun = "Rocketgun";
+
+    //Starting ammo
+    public const int STARTING_PISTOL_AMMO = 12;
+    public const int STARTING_SHOTGUN_AMMO = 6;
+    public const int STARTING_SMG_AMMO = 30;
+    public const int STARTING_ROCKET_AMMO = 10;
 
     //Misc
     public const float CameraDefaultZoom = 66f;
-    
+
+    //Powerups
+    public enum POWER_UP_NAMES {
+        BERSERK,
+        INVINCIBILITY,
+        RAPIDFIRE
+    };
+
+    public const float rapidFireTime = 35f;
+    public const float invincibilityTime = 35f;
+
+
 }

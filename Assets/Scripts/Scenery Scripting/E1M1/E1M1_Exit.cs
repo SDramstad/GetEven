@@ -49,6 +49,7 @@ public class E1M1_Exit : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && (GlobalGame.e1m1_powerboxes == 2))
             {
+                _uiManager.SetLoadingScreen();
                 SceneManager.LoadScene("E1M3");
             }
         }

@@ -41,7 +41,7 @@ public class E1M0_SlidingDoor : MonoBehaviour
         {
             playerInBounds = true;
         }
-        else if (other.gameObject.GetComponent<Enemy>())
+        else if (other.gameObject.GetComponent<Soldier>())
         {
             if(!open)
             {

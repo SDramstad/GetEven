@@ -4,36 +4,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Ammo : MonoBehaviour {
-
+    
+    //These are the default starting values for Ammo
+    
     [SerializeField]
-    UIManager ui;
-
+    public int maxHandgunAmmo = 120;
     [SerializeField]
-    private int knifeAmmo = 9999999;
+    public int maxShotgunAmmo = 100;
     [SerializeField]
-    private int handgunAmmo = 9;
+    public int maxRocketAmmo = 80;
     [SerializeField]
-    private int maxHandgunAmmo = 99;
-    [SerializeField]
-    private int shotgunAmmo = 3;
-    [SerializeField]
-    private int maxShotgunAmmo = 99;
-    [SerializeField]
-    private int rifleAmmo = 25;
-    [SerializeField]
-    private int maxRifleAmmo = 250;
+    public int maxRifleAmmo = 250;
+    //[SerializeField]
+    //public int knifeAmmo = 9999999;
+    //[SerializeField]
+    //public int handgunAmmo = 9;
+    //[SerializeField]
+    //public int shotgunAmmo = 20;
+    //[SerializeField]
+    //public int rocketAmmo = 20;
+    //[SerializeField]
+    //public int rifleAmmo = 25;
 
     public Dictionary<string, int> tagToAmmo;
 
-    void Awake()
+    public void Start()
     {
         tagToAmmo = new Dictionary<string, int> {
-            {Constants.Knife, knifeAmmo},
-            {Constants.Handgun, handgunAmmo},
-            {Constants.Shotgun, shotgunAmmo},
-            {Constants.Rifle, rifleAmmo},
+            {Constants.Knife, 1},
+            {Constants.Handgun, 0},
+            {Constants.Shotgun, 0},
+            {Constants.Rifle, 0},
+            {Constants.Rocketgun, 0},
             {Constants.Unarmed, 0},
         };
+    }
+    
+    public int[] gatherAmmoList()
+    {
+        int[] ammoList = { tagToAmmo[Constants.Handgun], tagToAmmo[Constants.Shotgun], tagToAmmo[Constants.Rifle], tagToAmmo[Constants.Rocketgun] };
+        return ammoList;
     }
 
     internal bool IsFull(string ammoType)
@@ -43,19 +53,25 @@ public class Ammo : MonoBehaviour {
         switch(ammoType)
         {
             case "Handgun":
-                if (handgunAmmo > maxHandgunAmmo)
+                if (tagToAmmo[Constants.Handgun] > maxHandgunAmmo)
                 {
                     results = true;
                 }
                 break;
             case "Shotgun":
-                if (shotgunAmmo > maxShotgunAmmo)
+                if (tagToAmmo[Constants.Shotgun] > maxShotgunAmmo)
                 {
                     results = true;
                 }
                 break;
             case "Rifle":
-                if (rifleAmmo > maxRifleAmmo)
+                if (tagToAmmo[Constants.Rifle] > maxRifleAmmo)
+                {
+                    results = true;
+                }
+                break;
+            case "Rocketgun":
+                if (tagToAmmo[Constants.Rocketgun] > maxRocketAmmo)
                 {
                     results = true;
                 }
@@ -75,6 +91,35 @@ public class Ammo : MonoBehaviour {
         }
 
         tagToAmmo[tag] += ammo;
+
+        //normalize the ammo type if it goes over max
+        if (IsFull(tag))
+        {
+            normalizeAmmo(tag);
+        }
+        
+    }
+
+    private void normalizeAmmo(string tag)
+    {
+
+        switch (tag)
+        {
+            case "Handgun":
+                tagToAmmo[Constants.Handgun] = maxHandgunAmmo;
+                break;
+            case "Shotgun":
+                tagToAmmo[Constants.Shotgun] = maxShotgunAmmo;
+                break;
+            case "Rifle":
+                tagToAmmo[Constants.Rifle] = maxRifleAmmo;
+                break;
+            case "Rocketgun":
+                tagToAmmo[Constants.Rocketgun] = maxRocketAmmo;
+                break;
+            default:
+                break;
+        }
     }
 
     //checks if gun has ammo
@@ -106,6 +151,5 @@ public class Ammo : MonoBehaviour {
         }
 
         tagToAmmo[tag]--;
-        //ui.SetAmmoText(tagToAmmo[tag]);
     }
 }

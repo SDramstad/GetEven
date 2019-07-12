@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MolemanEnemy : AbstractTakesDamage {
+public class MolemanEnemy : A_TakesDamage {
 
     //[SerializeField]
     //Projectile missilePrefab;
@@ -61,6 +61,7 @@ public class MolemanEnemy : AbstractTakesDamage {
         //if the player is close enough, hunt for them, OR if has been attacked and the two of you are not on top of each other
         if ((Vector3.Distance(transform.position, player.position) < range && Vector3.Distance(transform.position, player.position) > 3) || (alerted && Vector3.Distance(transform.position, player.position) > 3))
         {
+            agent.isStopped = false;
             transform.LookAt(player);
             alerted = true;
             molemanAnimations.Play("Run");
@@ -77,6 +78,7 @@ public class MolemanEnemy : AbstractTakesDamage {
     void fire()
     {
         target = GameObject.Find("Player");
+        agent.isStopped = true;
 
         Vector3 direction = target.transform.position - transform.position;
         Ray ray = new Ray(transform.position, direction);
@@ -92,6 +94,8 @@ public class MolemanEnemy : AbstractTakesDamage {
 
         molemanAnimations.Play("Attack");
         GetComponent<AudioSource>().PlayOneShot(fireSound);
+
+
     }
 
     private void processHit(GameObject hitObject, RaycastHit location)
@@ -100,10 +104,10 @@ public class MolemanEnemy : AbstractTakesDamage {
 
         //this section should be using a fucking interface but i need to look in that more
 
-        if (hitObject.GetComponent<AbstractTakesDamage>() != null)
+        if (hitObject.GetComponent<A_TakesDamage>() != null)
         {
-            hitObject.GetComponent<AbstractTakesDamage>().TakeDamage(damage);
-            ParticleSystem _tempParticleSystem = Instantiate(hitObject.GetComponent<AbstractTakesDamage>().painGFX, location.point, Quaternion.identity);
+            hitObject.GetComponent<A_TakesDamage>().TakeDamage(damage);
+            ParticleSystem _tempParticleSystem = Instantiate(hitObject.GetComponent<A_TakesDamage>().painGFX, location.point, Quaternion.identity);
             Destroy(_tempParticleSystem, 2f);
         }
 

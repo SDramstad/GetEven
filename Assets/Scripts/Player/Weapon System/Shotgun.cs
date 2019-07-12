@@ -12,6 +12,7 @@ public class Shotgun : Weapon
         if (Input.GetMouseButtonDown(0) && (Time.time - lastFireTime) > fireRate && !GlobalGame.pauseMenuActive)
         {
             lastFireTime = Time.time;
+            GetComponent<Animator>().Play("Shotgun_Attack");
             Attack();
         }
     }

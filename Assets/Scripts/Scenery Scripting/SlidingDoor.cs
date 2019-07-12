@@ -41,7 +41,7 @@ public class SlidingDoor : MonoBehaviour
         {
             playerInBounds = true;
         }
-        else if (other.gameObject.GetComponent<Enemy>() || other.gameObject.GetComponent<MolemanEnemy>())
+        else if (other.gameObject.GetComponent<Soldier>() || other.gameObject.GetComponent<MolemanEnemy>())
         {
             if(!open)
             {
@@ -65,7 +65,7 @@ public class SlidingDoor : MonoBehaviour
         if (playerInBounds)
         {            
             //otherwise we can take input
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetButtonDown("Interact"))
             {
                 Debug.Log("Door press accepted.");
                 buttonActivated = true;

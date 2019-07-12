@@ -13,6 +13,7 @@ public class PauseMenu : MonoBehaviour {
 
     public void ResumeGame()
     {
+        _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _uiManager.togglePauseMenuVisibility();
     }
 }

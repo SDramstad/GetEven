@@ -20,22 +20,23 @@ public class PickUpHealth : I_EnterTrigger {
     {
         if (checkBounds())
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (playerObject.GetComponent<Player>().canPickUpHealth())
             {
-                if (playerObject.GetComponent<Player>().canPickUpHealth())
-                {
-                    playerObject.GetComponent<Player>().healthRegain(50);
-                    _uiManager.SetPickUpText("Health +50 picked up");
-                    GetComponent<AudioSource>().PlayOneShot(_healthPickUp);
+                playerObject.GetComponent<Player>().healthRegain(50);
+                _uiManager.SetPickUpText("Health +50 picked up");
+                GetComponent<AudioSource>().PlayOneShot(_healthPickUp);
 
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    _uiManager.SetPickUpText("Health is full, can't pick up.");
-                }
-
+                Destroy(gameObject);
             }
+            else
+            {
+                _uiManager.SetPickUpText("Health is full, can't pick up.");
+            }
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+
+
+            //}
         }
         
 

@@ -23,19 +23,7 @@ public class I_EnterTrigger : MonoBehaviour {
             isInBounds = false;
         }
     }
-
-    // Update is called once per frame
-    //public void Update()
-    //{
-    //    if (isInBounds)
-    //    {
-    //        //otherwise we can take input
-    //        if (Input.GetKeyDown(KeyCode.E))
-    //        {
-    //            Debug.Log("Key press accepted.");
-    //        }
-    //    }
-    //}
+    
 
     public bool checkBounds()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplosiveBarrel : AbstractTakesDamage {
+public class ExplosiveBarrel : A_TakesDamage {
 
     [SerializeField]
     private int health;
@@ -15,11 +15,12 @@ public class ExplosiveBarrel : AbstractTakesDamage {
     [SerializeField]
     private ParticleSystem deathGFX;
 
-    
+    private bool isExploding;
 
 	// Use this for initialization
 	void Start () {
         List<GameObject> inRadiusList = new List<GameObject>();
+        isExploding = false;
 	}
 	
 	// Update is called once per frame
@@ -36,7 +37,10 @@ public class ExplosiveBarrel : AbstractTakesDamage {
         if (health <= 0)
         {
             Debug.Log("This should be blowing up.");
-            explode();
+            if (!isExploding)
+            {
+                explode();
+            }
 
             //Game.RemoveEnemy();
         }
@@ -44,45 +48,41 @@ public class ExplosiveBarrel : AbstractTakesDamage {
 
     private void explode()
     {
+        isExploding = true;
+        //gets a list of all gameobjects within an overlap sphere, originating at transform's position, going out 10 float units
         Collider[] inRadiusList = Physics.OverlapSphere(transform.position, 10f);
 
         int i = 0;
         while (i < inRadiusList.Length)
         {
-            //Debug.Log("why");
-            //GetComponent<Rigidbody>().AddExplosionForce(10f, transform.position, 5f);
-            //Debug.Log("Barrel explosion hit: " + inRadiusList[i].name);
-            if (!inRadiusList[i].GetComponent<ExplosiveBarrel>())
+            Rigidbody rb = inRadiusList[i].GetComponent<Rigidbody>();
+
+            if (rb != null)
             {
-                /*if(inRadiusList[i].GetComponent<Enemy>())
-                {
-                    inRadiusList[i].GetComponent<Enemy>().TakeDamage(damage);
-                }
-
-                if (inRadiusList[i].GetComponent<Player>())
-                {
-                    inRadiusList[i].GetComponent<Player>().TakeDamage(10);
-                }*/
-
-                //if (inRadiusList[i].GetComponent<Rigidbody>())
-                //{
-                //    inRadiusList[i].GetComponent<Rigidbody>().AddExplosionForce(10f, transform.position, 5f);
-                //}
-
-                Rigidbody rb = inRadiusList[i].GetComponent<Rigidbody>();
-
-                if (rb != null)
-                {
-                    rb.AddExplosionForce(500.0f, transform.position, 15f, 5f);
-                }
+                rb.AddExplosionForce(500.0f, transform.position, 15f, 5f);
+            }
+            if (inRadiusList[i].GetComponent<A_TakesDamage>() != null)
+            {
                 inRadiusList[i].SendMessage("TakeDamage", damage);
             }
+
             i++;
         }
-        //Debug.Log("workedd");
 
         GetComponent<AudioSource>().PlayOneShot(deathSound);
         Instantiate(deathGFX, transform.position, Quaternion.identity);
+        Renderer[] childObjects = GetComponentsInChildren<Renderer>();
+        foreach (var item in childObjects)
+        {
+            item.enabled = false;
+        }
+        GetComponent<MeshCollider>().enabled = false;
+        StartCoroutine("DestroyBarrel");
+    }
+
+    IEnumerator DestroyBarrel()
+    {
+        yield return new WaitForSeconds(4);
         Destroy(gameObject);
     }
 

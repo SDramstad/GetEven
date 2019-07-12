@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class HelicopterBoss : AbstractTakesDamage
+public class HelicopterBoss : A_TakesDamage
 {
 
     [SerializeField]

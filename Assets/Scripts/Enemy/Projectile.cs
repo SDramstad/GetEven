@@ -33,9 +33,9 @@ public class Projectile : MonoBehaviour {
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.GetComponent<AbstractTakesDamage>() != null)
+        if (collider.gameObject.GetComponent<A_TakesDamage>() != null)
         {
-            collider.gameObject.GetComponent<AbstractTakesDamage>().TakeDamage(damage);            
+            collider.gameObject.GetComponent<A_TakesDamage>().TakeDamage(damage);            
         }        
         Destroy(gameObject);
 

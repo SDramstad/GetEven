@@ -9,7 +9,9 @@ public class MainMenu : MonoBehaviour {
     private GameObject _LorePanel;
     void Start()
     {
-        //_LorePanel = GameObject.Find("LorePanel");
+        GlobalControl.Instance.savedPlayerData = new PlayerData();
+        GlobalControl.Instance.savedAreaData.Clear();
+        
     }
     public void StartMainGame()
     {

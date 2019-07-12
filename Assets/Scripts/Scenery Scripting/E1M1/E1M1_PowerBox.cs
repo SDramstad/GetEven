@@ -21,11 +21,13 @@ public class E1M1_PowerBox : MonoBehaviour {
     void Start()
     {
         _powerBoxDeactivated = false;
+        isInBounds = false;
         //_thisBoxLight = GetComponentInChildren<Material>();
     }
     
     void OnTriggerStay(Collider other)
     {
+        
         if (other.gameObject.name == "Player")
         {
             if(!_powerBoxDeactivated)

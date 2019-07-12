@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Civilian : AbstractTakesDamage {
+public class Civilian : A_TakesDamage {
 
-    public UIManager _ui;
+    private UIManager _ui;
 
     [SerializeField]
     private string characterName;
@@ -53,7 +53,7 @@ public class Civilian : AbstractTakesDamage {
         if (_isInBounds)
         {
             //otherwise we can take input
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetButtonDown("Interact"))
             {
                 //Debug.Log("Conversation starts here.");
                 GetComponent<AudioSource>().PlayOneShot(speechNoise);

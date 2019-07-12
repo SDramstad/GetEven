@@ -12,6 +12,7 @@ public class Rifle : Weapon
         if (Input.GetMouseButton(0) && (Time.time - lastFireTime) > fireRate && !GlobalGame.pauseMenuActive)
         {
             lastFireTime = Time.time;
+            GetComponent<Animator>().Play("Rifle_Attack");
             Attack();
         }
     }

@@ -2,22 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityStandardAssets.Characters.FirstPerson;
 
-public class Player : AbstractTakesDamage {
-
-    public int health;
-    public int maxHealth;
+public class Player : A_TakesDamage {
+    
+    public PlayerData localPlayerData = new PlayerData();
     //armor is a percentage decrease of all damage taken
     // 0 = unarmored, 1 = light (15%), 2 = medium(25%), 3 = heavy(35%)
     public int armor;
     public UIManager uiManager;
     public Game gameManager;
-       // private WeaponManager weaponManager;
-    private Ammo ammo;
+
+    //power ups
+    private bool rapidFireActive = false;
+    private float lastPickedUpRapidFire = 0.00f;
+    private bool invincActive = false;
+    private float lastPickedUpInvince = 0.00f;
 
     internal bool canPickUpHealth()
     {
-        if (health < maxHealth)
+        if (localPlayerData.hp < localPlayerData.maxhp)
         {
             return true;
         }
@@ -27,6 +32,7 @@ public class Player : AbstractTakesDamage {
         }
     }
 
+
     //public Game game;
     //public Weapon pistol;
     //public Weapon shotgun;
@@ -34,29 +40,72 @@ public class Player : AbstractTakesDamage {
     public bool isMale;
     public AudioClip playerDead;
     public AudioClip pickupSound;
+    private GameObject flashlight;
 
-    private float lastDamageTime;
+    //sets the time regen can start kicking in
+    private float canHealTime;
+
 
     // Use this for initialization
     void Start () {
-        //ammo = GetComponent<Ammo>();
-        //weaponManager = GetComponent<WeaponManager>();
-        lastDamageTime = Time.time - 10f;
-        health = 100;
-        maxHealth = 100;
+        canHealTime = 0.0f;
+        LoadPlayer();
+        Debug.Log("Am i a super boy? Should be a 7: " + localPlayerData.sk_speed);
         armor = 0;
         isMale = true;
-        ammo = GameObject.Find("AmmoManager").GetComponent<Ammo>();
+        flashlight = GameObject.Find("F_Flashlight");
+        if (flashlight == null)
+        {
+            Debug.Log("Flashlight object is null?");
+        }
+        flashlight.SetActive(false);
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         gameManager = GameObject.Find("GameManager").GetComponent<Game>();
-        InvokeRepeating("healthRegen", 1f, 1f);
+        InvokeRepeating("healthRegen", 1f, 0.2f);
 	}
+    
+    private void LoadPlayer()
+    {
+        //load in data from globalcontrol
+        GetComponent<Ammo>().tagToAmmo[Constants.Handgun] = GlobalControl.Instance.savedPlayerData.pistolAmmo;
+        GetComponent<Ammo>().tagToAmmo[Constants.Shotgun] = GlobalControl.Instance.savedPlayerData.shotgunAmmo;
+        GetComponent<Ammo>().tagToAmmo[Constants.Rifle] = GlobalControl.Instance.savedPlayerData.rifleAmmo;
+        GetComponent<WeaponSwitcher>().hasKnife = GlobalControl.Instance.savedPlayerData.hasKnife;
+        GetComponent<WeaponSwitcher>().hasPistol = GlobalControl.Instance.savedPlayerData.hasPistol;
+        GetComponent<WeaponSwitcher>().hasShotgun = GlobalControl.Instance.savedPlayerData.hasShotgun;
+        GetComponent<WeaponSwitcher>().hasRifle = GlobalControl.Instance.savedPlayerData.hasRifle;
+        localPlayerData.hp = GlobalControl.Instance.savedPlayerData.hp;
+        localPlayerData.maxhp = GlobalControl.Instance.savedPlayerData.maxhp;
+        localPlayerData.difficulty = GlobalControl.Instance.savedPlayerData.difficulty;
+        Debug.Log("Speed is currently: " + GetComponent<FirstPersonController>().m_WalkSpeed);
+        Debug.Log("Speed in GlobalControl is " + GlobalControl.Instance.savedPlayerData.sk_speed);
+        GetComponent<FirstPersonController>().m_JumpSpeed = GlobalControl.Instance.savedPlayerData.sk_jump;
+        GetComponent<FirstPersonController>().m_WalkSpeed = GlobalControl.Instance.savedPlayerData.sk_speed;
+        GetComponent<FirstPersonController>().m_RunSpeed = GlobalControl.Instance.savedPlayerData.sk_speed * 2;
+    }
+
+    public void SavePlayer()
+    {
+        Debug.Log("Saving player data.");
+        GlobalControl.Instance.savedPlayerData.pistolAmmo = GetComponent<Ammo>().tagToAmmo[Constants.Handgun];
+        GlobalControl.Instance.savedPlayerData.shotgunAmmo = GetComponent<Ammo>().tagToAmmo[Constants.Shotgun];
+        GlobalControl.Instance.savedPlayerData.rifleAmmo = GetComponent<Ammo>().tagToAmmo[Constants.Rifle];
+        GlobalControl.Instance.savedPlayerData.hasKnife = GetComponent<WeaponSwitcher>().hasKnife;
+        GlobalControl.Instance.savedPlayerData.hasPistol = GetComponent<WeaponSwitcher>().hasPistol;
+        GlobalControl.Instance.savedPlayerData.hasShotgun = GetComponent<WeaponSwitcher>().hasShotgun;
+        GlobalControl.Instance.savedPlayerData.hasRifle = GetComponent<WeaponSwitcher>().hasRifle;        
+        GlobalControl.Instance.savedPlayerData.hp = localPlayerData.hp;
+        GlobalControl.Instance.savedPlayerData.maxhp = localPlayerData.maxhp;
+        GlobalControl.Instance.savedPlayerData.difficulty = localPlayerData.difficulty;
+        GlobalControl.Instance.savedPlayerData.sk_jump = GetComponent<FirstPersonController>().m_JumpSpeed;
+        GlobalControl.Instance.savedPlayerData.sk_speed = GetComponent<FirstPersonController>().m_WalkSpeed;
+    }
 
     public override void TakeDamage(int amount)
     {
         int healthDamage = amount;
-        float lastDamageTime = Time.time;
-
+        //regen starts up in 5 seconds of not taking damage
+        canHealTime = Time.time + 5f;
 
         switch (armor) {
             case 1:
@@ -72,66 +121,126 @@ public class Player : AbstractTakesDamage {
                 break;
         }
 
-        /*
-        if (armor > 0)
+        //difficulty damage adjustments
+        switch (localPlayerData.difficulty)
         {
-            int effectiveArmor = armor * 2;
-            
-            effectiveArmor -= healthDamage;
-
-            //if still armor, dont process health damage
-            if (effectiveArmor > 0)
-            {
-                armor = effectiveArmor / 2;
-                gameui.SetArmorText(armor);
-                return;
-            }
-
-            armor = 0;
-            gameui.SetArmorText(armor);
+            case 1:
+                healthDamage = (int)System.Math.Round(amount * 0.50m);
+                break;
+            case 2:
+                healthDamage = amount;
+                break;
+            case 3:
+                healthDamage = (int)System.Math.Round(amount * 1.5m);
+                break;
+            default:
+                break;
         }
-    
-        */
         
-        health -= healthDamage;
-        uiManager.DamageFlash();
-        Debug.Log("Health is " + health);
-
-        if (health <= 0)
+        if (invincActive)
         {
-            //Debug.Log("ROBOTS WIN.");
+            //immune to damage
+        }
+        else
+        {
+            localPlayerData.hp -= healthDamage;
+            uiManager.DamageFlash();
+
+        }
+        
+        //Debug.Log("Health is " + localPlayerData.hp + " and global health is " + GlobalControl.Instance.savedPlayerData.hp);
+
+        if (localPlayerData.hp <= 0)
+        {
             GetComponent<AudioSource>().PlayOneShot(playerDead);
             gameManager.GameOver();
-            //game.GameOver();
         }
     }
 
     public void healthRegain(int healthGain)
     {
-        health += healthGain;
+        localPlayerData.hp += healthGain;
         normalizeHealth();
     }
 
     private void normalizeHealth()
     {
-        if (health > maxHealth)
+        if (localPlayerData.hp > localPlayerData.maxhp)
         {
-            health = maxHealth;
-        }
+            localPlayerData.hp = localPlayerData.maxhp;
+        }   
     }
 	// Update is called once per frame
 	void Update () {
-        uiManager.SetHealth(health);	
+        uiManager.SetHealth(localPlayerData.hp);
+        powerUpTimeCheck();
+        if (Input.GetButtonDown("Flashlight"))
+        {
+            if (flashlight.activeSelf)
+            {
+                flashlight.SetActive(false);
+            }
+            else
+            {
+                flashlight.SetActive(true);
+            }
+        }
     }
 
     void healthRegen()
     {
-        //after x seconds of not taking damage, begin regaining health	
-        if (((Time.time - lastDamageTime) > 10f) && (health < (maxHealth/2)))
+        //Is invokved from the START on an INVOKEREPEATING.
+        //Every second, this check runs. If Health is less than half the MAXHP, AND the time since last damage was taken is greater than 5 seconds
+        if ( ((Time.time > canHealTime)) && (localPlayerData.hp < (localPlayerData.maxhp/ 2)) )
         {
-            health += 5;
-            Debug.Log("Health is " + health);
+            localPlayerData.hp += 1;
+            //Debug.Log("Health is " + localPlayerData.hp);
         }
     }
-    
+
+    public void pickupInvincibility()
+    {
+        Debug.Log("Picked up Invincibility.");
+        lastPickedUpInvince = Time.time;
+        Invincibility();
+    }
+
+    private void Invincibility()
+    {
+        localPlayerData.hp = 666;
+        invincActive = true;
+
+    }
+
+    private void DisableInvincibility()
+    {
+        localPlayerData.hp = localPlayerData.maxhp;
+        invincActive = false;
+    }
+
+    public void pickupRapidFire()
+    {
+        Debug.Log("Picked up Rapid Fire. Time is " + Time.time + " and the time this power up should be over is " + (Time.time + Constants.rapidFireTime) + ".");
+        lastPickedUpRapidFire = Time.time;
+        rapidFireActive = true;
+        GetComponent<WeaponSwitcher>().RapidFire();
+    }
+
+    private void powerUpTimeCheck()
+    {
+        //rapidfire
+        if (Time.time >= lastPickedUpRapidFire + Constants.rapidFireTime && rapidFireActive)
+        {
+            //disable if wears off
+            GetComponent<WeaponSwitcher>().EndRapidFire();
+            rapidFireActive = false;
+        }
+
+        //invince
+        if (Time.time >= lastPickedUpInvince + Constants.invincibilityTime && invincActive)
+        {
+            Debug.Log("Turning off Invince.");
+            DisableInvincibility();
+        }
+    }
 }
