@@ -48,6 +48,9 @@ public class UIManager : MonoBehaviour {
     //Pause Menu
     private GameObject _pauseMenu;
 
+    //Testing - Member Variable for Dialogue Length
+    private float dialogueTime = 5f;
+
     //crosshair info
     [SerializeField]
     private Sprite crosshair_target;
@@ -118,8 +121,13 @@ public class UIManager : MonoBehaviour {
 
         if (duration == 0)
         {
-            duration = 5f;
+            dialogueTime = 5f;
         }
+        else
+        {
+            dialogueTime = duration;
+        }
+
 
         //begin countdown to hide
         StopCoroutine("HidePickUpText");
@@ -130,6 +138,7 @@ public class UIManager : MonoBehaviour {
     public void SetConversationText(string charName, string charDialogue)
     {
         SetConversationText(charName, charDialogue, 5f);
+        
     }
 
     public void SetPickUpText(string displayText)
@@ -170,7 +179,7 @@ public class UIManager : MonoBehaviour {
 
     IEnumerator HideConversation()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(dialogueTime);
         _dialoguePanel.GetComponent<Image>().enabled = false;
         _dialogueNameText.GetComponent<Text>().enabled = false;
         _dialogueText.GetComponent<Text>().enabled = false;
