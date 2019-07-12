@@ -15,6 +15,8 @@ public class Ammo : MonoBehaviour {
     public int maxRocketAmmo = 80;
     [SerializeField]
     public int maxRifleAmmo = 250;
+    [SerializeField]
+    public int maxFragAmmo = 5;
     //[SerializeField]
     //public int knifeAmmo = 9999999;
     //[SerializeField]
@@ -37,12 +39,13 @@ public class Ammo : MonoBehaviour {
             {Constants.Rifle, 0},
             {Constants.Rocketgun, 0},
             {Constants.Unarmed, 0},
+            {Constants.Frag, 0},
         };
     }
     
     public int[] gatherAmmoList()
     {
-        int[] ammoList = { tagToAmmo[Constants.Handgun], tagToAmmo[Constants.Shotgun], tagToAmmo[Constants.Rifle], tagToAmmo[Constants.Rocketgun] };
+        int[] ammoList = { tagToAmmo[Constants.Handgun], tagToAmmo[Constants.Shotgun], tagToAmmo[Constants.Rifle], tagToAmmo[Constants.Rocketgun], tagToAmmo[Constants.Frag] };
         return ammoList;
     }
 
@@ -72,6 +75,12 @@ public class Ammo : MonoBehaviour {
                 break;
             case "Rocketgun":
                 if (tagToAmmo[Constants.Rocketgun] > maxRocketAmmo)
+                {
+                    results = true;
+                }
+                break;
+            case "Grenade":
+                if (tagToAmmo[Constants.Frag] > maxFragAmmo)
                 {
                     results = true;
                 }
@@ -116,6 +125,9 @@ public class Ammo : MonoBehaviour {
                 break;
             case "Rocketgun":
                 tagToAmmo[Constants.Rocketgun] = maxRocketAmmo;
+                break;
+            case "Frag":
+                tagToAmmo[Constants.Frag] = maxFragAmmo;
                 break;
             default:
                 break;

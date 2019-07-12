@@ -12,6 +12,7 @@ public class Constants
     public const string Unarmed = "Unarmed";
     public const string Rifle = "Rifle";
     public const string Rocketgun = "Rocketgun";
+    public const string Frag = "Frag Grenade";
 
     //Starting ammo
     public const int STARTING_PISTOL_AMMO = 12;
@@ -31,6 +32,5 @@ public class Constants
 
     public const float rapidFireTime = 35f;
     public const float invincibilityTime = 35f;
-
 
 }

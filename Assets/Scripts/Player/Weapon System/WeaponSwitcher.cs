@@ -28,6 +28,7 @@ public class WeaponSwitcher : MonoBehaviour
 
     GameObject activeGun;
     Grabber grabManager;
+    Ammo ammoManager;
 
 
     //private float knifeFireRate;
@@ -53,6 +54,7 @@ public class WeaponSwitcher : MonoBehaviour
 
         //TODO: Should be an inspector reference
         grabManager = GameObject.Find("FirstPersonCharacter").GetComponent<Grabber>();
+        ammoManager = GameObject.Find("AmmoManager").GetComponent<Ammo>();
     }
 
     public void loadWeapon(GameObject weapon)
@@ -111,6 +113,9 @@ public class WeaponSwitcher : MonoBehaviour
         //}
         else if (Input.GetButtonDown("Grenade"))
         {
+            //CHECK FOR AMMO COUNT
+            //if 
+            
             //spawn a frag grenade
             GameObject spawnedFrag = Instantiate(frag);
             //put it in front of you
