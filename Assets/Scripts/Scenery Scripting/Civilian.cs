@@ -11,6 +11,8 @@ public class Civilian : A_TakesDamage {
     [SerializeField]
     private string characterDialogue;
     [SerializeField]
+    private List<string> dialogueList = new List<string>();
+    [SerializeField]
     private string painDialogue;
     [SerializeField]
     private float durationDialogue;
@@ -23,12 +25,16 @@ public class Civilian : A_TakesDamage {
 
     private bool _isInBounds;
 
+    private int currentDialogueIndex = 0;
+
     //public ParticleSystem painGFX;
 
 
     void Start()
     {
         _ui = GameObject.Find("UIManager").GetComponent<UIManager>();
+        dialogueList.Insert(0, characterDialogue);
+
     }
 
     void OnTriggerStay(Collider other)
@@ -57,8 +63,28 @@ public class Civilian : A_TakesDamage {
             {
                 //Debug.Log("Conversation starts here.");
                 GetComponent<AudioSource>().PlayOneShot(speechNoise);
-                _ui.SetConversationText(characterName, characterDialogue, durationDialogue);
+                Talk();
 
+            }
+        }
+    }
+
+    private void Talk()
+    {
+        if (dialogueList.Count == 1)
+        {
+            _ui.SetConversationText(characterName, characterDialogue, durationDialogue);
+        }
+        else
+        {            
+            _ui.SetConversationText(characterName, dialogueList[currentDialogueIndex], durationDialogue);
+            if (currentDialogueIndex > dialogueList.Count)
+            {
+                currentDialogueIndex = 0;
+            }
+            else
+            {
+                currentDialogueIndex++;
             }
         }
     }
