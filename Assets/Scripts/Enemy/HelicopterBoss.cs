@@ -47,12 +47,21 @@ public class HelicopterBoss : A_TakesDamage
     //firemode true means missiles.
 
 
-    private Vector3 _leftSway;
-    private Vector3 _rightSway;
+    private Vector3 leftPosition;
+    private Vector3 rightPosition;
     private bool hasMoved;
 
     private bool isDead;
     private bool playerIsInSight;
+
+
+    //new Waypoint system for helicopter movement
+    [SerializeField]
+    private bool useWaypoints;
+
+    [SerializeField]
+    public GameObject[] _walkWaypoints;
+    private int currentTargetWaypoint;
 
     /// <summary>
     /// GOAL:
@@ -68,8 +77,8 @@ public class HelicopterBoss : A_TakesDamage
     {
         isDead = false;
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        _leftSway = transform.position;
-        _rightSway = new Vector3(transform.position.x + 50, transform.position.y, transform.position.z);
+        leftPosition = transform.position;
+        rightPosition = new Vector3(transform.position.x + 50, transform.position.y, transform.position.z);
         fireMode = true;
         hasMoved = false;
     }
@@ -83,15 +92,35 @@ public class HelicopterBoss : A_TakesDamage
             return;
         }
 
-        //sway back and forth
-        if (!hasMoved)
+        //when not using the alternate waypoint system, fall back to making their own waypoints
+        if (!useWaypoints)
         {
-            MoveLeft();
+            //sway back and forth
+            if (!hasMoved)
+            {
+                MoveLeft();
+            }
+            else
+            {
+                MoveRight();
+            }
+
         }
-        else
+        else //otherwise, move between the waypoints at random
         {
-            MoveRight();
+            if (Vector3.Distance(transform.position, _walkWaypoints[currentTargetWaypoint].transform.position) > 2f)
+            {
+                //Move towards target waypoint.
+                transform.position = Vector3.MoveTowards(transform.position, _walkWaypoints[currentTargetWaypoint].transform.position, 10f * Time.deltaTime);
+            }
+            else
+            {
+                //Have arrived, change target waypoint
+                currentTargetWaypoint = UnityEngine.Random.Range(0, _walkWaypoints.Length);
+
+            }
         }
+        
 
         if (Vector3.Distance(transform.position, player.position) < 100 && !playerIsInSight)
         {
@@ -141,11 +170,11 @@ public class HelicopterBoss : A_TakesDamage
 
     private void MoveLeft()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _leftSway, 10f * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, leftPosition, 10f * Time.deltaTime);
 
         //Debug.Log("We moving.");
         //if opened, end movement
-        if (Vector3.Distance(transform.position, _leftSway) < 0.1f)
+        if (Vector3.Distance(transform.position, leftPosition) < 0.1f)
         {
             hasMoved = true;
         }
@@ -153,11 +182,11 @@ public class HelicopterBoss : A_TakesDamage
 
     private void MoveRight()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _rightSway, 10f * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, rightPosition, 10f * Time.deltaTime);
 
         //Debug.Log("We moving.");
         //if opened, end movement
-        if (Vector3.Distance(transform.position, _rightSway) < 0.1f)
+        if (Vector3.Distance(transform.position, rightPosition) < 0.1f)
         {
             hasMoved = false;
         }
