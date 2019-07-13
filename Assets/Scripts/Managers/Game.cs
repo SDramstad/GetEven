@@ -32,8 +32,10 @@ public class Game : MonoBehaviour {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         uiManager.DisplayDeathMenu();
-
     }
+
+
+
 
     internal void SaveArea()
     {

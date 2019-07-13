@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 135673658452563508}
   - component: {fileID: 54864414024233150}
   m_Layer: 0
-  m_Name: MagicBullet
+  m_Name: TurretBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952892b6af19dda449b1a9a7cd309800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 40
+  speed: 70
   damage: 5
   targetDirection: {x: 0, y: 0, z: 0}
 --- !u!135 &135673658452563508

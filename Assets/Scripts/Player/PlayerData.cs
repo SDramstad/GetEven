@@ -16,7 +16,7 @@ public class PlayerData {
     public bool hasRifle;
     public bool hasRocketgun;
 
-    //difficulty, 1 easy, 2 normal, 3 hard
+    //difficulty, 1 easy, 2 normal, 3 hard, 4 nightmare
     public int difficulty;
 
     /*
@@ -150,6 +150,52 @@ public class PlayerData {
         lootValue = clone.lootValue;
         sk_speed = clone.sk_speed;
         sk_jump = clone.sk_jump;
+    }
+
+    public float GetDifficulty_ProjectileSpeedMod()
+    {
+        float speedMod = 1f;
+        switch (difficulty)
+        {
+            case 1:
+                speedMod = 0.9f;
+                break;
+            case 2:
+                speedMod = 1f;
+                break;
+            case 3:
+                speedMod = 1.2f;
+                break;
+            case 4:
+                speedMod = 1.5f;
+                break;
+            default:
+                break;
+        }
+        return speedMod;
+    }
+
+    public float GetDifficulty_PlayerDamageMod()
+    {
+        float damageMod = 1f;
+        switch (difficulty)
+        {
+            case 1:
+                damageMod = 0.9f;
+                break;
+            case 2:
+                damageMod = 1f;
+                break;
+            case 3:
+                damageMod = 1.1f;
+                break;
+            case 4:
+                damageMod = 1.5f;
+                break;
+            default:
+                break;
+        }
+        return damageMod;
     }
 
 }

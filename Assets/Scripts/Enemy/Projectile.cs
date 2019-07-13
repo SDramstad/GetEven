@@ -11,17 +11,15 @@ public class Projectile : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //transform.LookAt(target.transform.position);
         StartCoroutine("DeathTimer");
-        //transform.LookAt(targetDirection);
+        Debug.Log("Base speed is " + speed);
+        speed *= GameObject.Find("Player").GetComponent<Player>().localPlayerData.GetDifficulty_ProjectileSpeedMod();
+        Debug.Log("Modified by difficulty speed is " + speed);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //Vector3.MoveTowards(transform.position, Vector3.forward, 3f * Time.deltaTime);
         transform.position += transform.forward * Time.deltaTime * speed;
-        //transform.Translate(targetDirection * speed * Time.deltaTime);
-        //transform.Translate(speed, speed, 0, Space.Self);
     }
 
 

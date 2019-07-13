@@ -50,15 +50,22 @@ public class Player : A_TakesDamage {
     void Start () {
         canHealTime = 0.0f;
         LoadPlayer();
+
+        //debug tetsing
         Debug.Log("Am i a super boy? Should be a 7: " + localPlayerData.sk_speed);
+        localPlayerData.difficulty = 4;
+
         armor = 0;
         isMale = true;
         flashlight = GameObject.Find("F_Flashlight");
+
         if (flashlight == null)
         {
             Debug.Log("Flashlight object is null?");
         }
+
         flashlight.SetActive(false);
+
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         gameManager = GameObject.Find("GameManager").GetComponent<Game>();
         InvokeRepeating("healthRegen", 1f, 0.2f);
@@ -104,6 +111,8 @@ public class Player : A_TakesDamage {
     public override void TakeDamage(int amount)
     {
         int healthDamage = amount;
+
+
         //regen starts up in 5 seconds of not taking damage
         canHealTime = Time.time + 5f;
 
@@ -122,21 +131,12 @@ public class Player : A_TakesDamage {
         }
 
         //difficulty damage adjustments
-        switch (localPlayerData.difficulty)
-        {
-            case 1:
-                healthDamage = (int)System.Math.Round(amount * 0.50m);
-                break;
-            case 2:
-                healthDamage = amount;
-                break;
-            case 3:
-                healthDamage = (int)System.Math.Round(amount * 1.5m);
-                break;
-            default:
-                break;
-        }
-        
+        Debug.Log("Health DMG before diff mod: " + healthDamage);
+        float tempHealthDamage = (float)healthDamage;
+        tempHealthDamage *= localPlayerData.GetDifficulty_PlayerDamageMod();
+        healthDamage = (int)System.Math.Round(tempHealthDamage);
+        Debug.Log("Health DMG after diff mod: " + healthDamage);
+
         if (invincActive)
         {
             //immune to damage
