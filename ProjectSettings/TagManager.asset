@@ -10,7 +10,7 @@ TagManager:
   - Door
   - Civilian
   - platform
-  - Enemy
+  - Combatant
   - Shotgun
   - Unarmed
   - Rifle

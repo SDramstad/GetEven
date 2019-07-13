@@ -297,6 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 2d2e15aeb3a89f045980bb511260c375, type: 3}
+  faction: 3
   _maxHp: 40
   _sightRange: 30
   _fireRange: 4

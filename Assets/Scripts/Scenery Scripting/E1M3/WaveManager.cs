@@ -16,7 +16,7 @@ public class WaveManager : MonoBehaviour {
 
     public int numberOfEnemies;
 
-    private const int TIME_TO_COMPLETE_WAVE_AND_STILL_GET__BONUS = 40;
+    private const int TIME_TO_COMPLETE_WAVE_AND_STILL_GET__BONUS = 50;
     private const int REST_TIME_BETWEEN_WAVES = 10;
 
     [SerializeField]
@@ -104,7 +104,7 @@ public class WaveManager : MonoBehaviour {
         if(!(_currentWave >= 5))
         {
             _currentWaveTimer = TIME_TO_COMPLETE_WAVE_AND_STILL_GET__BONUS;
-            InvokeRepeating("Timer", 1f, 1f);
+            Invoke("Timer", 1f);
             spawnWave();
             _uiManager.SetEnemiesLeft(numberOfEnemies);
         }
@@ -178,14 +178,16 @@ public class WaveManager : MonoBehaviour {
     {        
         if (_currentWaveTimer > 0)
         {
-            Debug.Log("Timer decrementing: " + _currentWaveTimer);
-            _currentWaveTimer--;
+            //Debug.Log("Timer decrementing: " + _currentWaveTimer);
+            _currentWaveTimer -= 1;
             _uiManager.SetBonusTimer(_currentWaveTimer);
         }
         else
         {
             _uiManager.SetBonusTimer(0);
         }
+
+        Invoke("Timer", 1f);
     }
 
     public void triggerStart()

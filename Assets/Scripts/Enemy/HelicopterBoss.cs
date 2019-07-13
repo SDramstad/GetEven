@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class HelicopterBoss : A_TakesDamage
+public class HelicopterBoss : A_ThreatCharacter
 {
 
     [SerializeField]

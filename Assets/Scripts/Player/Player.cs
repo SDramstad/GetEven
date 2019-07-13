@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class Player : A_TakesDamage {
+public class Player : A_ThreatCharacter {
     
     public PlayerData localPlayerData = new PlayerData();
     //armor is a percentage decrease of all damage taken

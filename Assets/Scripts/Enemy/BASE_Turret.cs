@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BASE_Turret : A_TakesDamage
+public class BASE_Turret : A_ThreatCharacter
 {
 
     [SerializeField]

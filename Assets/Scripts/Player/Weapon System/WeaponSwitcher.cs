@@ -54,7 +54,7 @@ public class WeaponSwitcher : MonoBehaviour
 
         //TODO: Should be an inspector reference
         grabManager = GameObject.Find("FirstPersonCharacter").GetComponent<Grabber>();
-        ammoManager = GameObject.Find("AmmoManager").GetComponent<Ammo>();
+        ammoManager =GetComponent<Ammo>();
     }
 
     public void loadWeapon(GameObject weapon)

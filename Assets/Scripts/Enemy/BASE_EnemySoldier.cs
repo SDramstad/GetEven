@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
 /// The base class for State security.
 /// </summary>
-public class BASE_EnemySoldier : A_TakesDamage
+public class BASE_EnemySoldier : A_ThreatCharacter
 {
 
     [SerializeField]
@@ -76,6 +77,7 @@ public class BASE_EnemySoldier : A_TakesDamage
         Panic
     }
 
+
     [SerializeField]
     protected SoldierState _state;
     [SerializeField]
@@ -114,6 +116,7 @@ public class BASE_EnemySoldier : A_TakesDamage
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        SelectTarget();
         //_awareness = AlertState.Unaware;
     }
 
@@ -323,7 +326,35 @@ public class BASE_EnemySoldier : A_TakesDamage
     /// </summary>
     protected void SelectTarget()
     {
-        target = GameObject.Find("Player");
+        //search for local enemies
+        //target = GameObject.Find("Player");
+
+        target = FindClosestThreat();
+
+        //try
+        //{
+        //    target = FindClosestThreat();
+
+        //}
+        //catch (NullReferenceException ex)
+        //{
+        //    target = GameObject.Find("Player");
+        //}
+
+    }
+
+    private GameObject FindClosestThreat()
+    {
+        List<GameObject> localCombatants = GameObject.FindGameObjectsWithTag("Combatant").ToList<GameObject>();
+        localCombatants.Add(GameObject.Find("Player"));
+
+        //removes all localCombatants from the list that share the same faction
+        localCombatants.RemoveAll(p => p.GetComponent<A_ThreatCharacter>().GetFaction() == faction);
+        
+        //returns the most nearby enemy
+        GameObject nearestEnemy = localCombatants.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
+        
+        return nearestEnemy;
     }
 
     protected virtual void DoIdle()
