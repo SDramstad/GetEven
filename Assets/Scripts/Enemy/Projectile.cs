@@ -12,9 +12,9 @@ public class Projectile : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         StartCoroutine("DeathTimer");
-        Debug.Log("Base speed is " + speed);
+        //Debug.Log("Base speed is " + speed);
         speed *= GameObject.Find("Player").GetComponent<Player>().localPlayerData.GetDifficulty_ProjectileSpeedMod();
-        Debug.Log("Modified by difficulty speed is " + speed);
+        //Debug.Log("Modified by difficulty speed is " + speed);
     }
 	
 	// Update is called once per frame

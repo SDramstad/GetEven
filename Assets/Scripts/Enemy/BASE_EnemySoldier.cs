@@ -126,7 +126,6 @@ public class BASE_EnemySoldier : A_ThreatCharacter
         //figure out who to target
         SelectTarget();
 
-        //Debug.Log("AWARENESS: " + _awareness);
 
         //actions chosen based on the current state
         switch (_awareness)

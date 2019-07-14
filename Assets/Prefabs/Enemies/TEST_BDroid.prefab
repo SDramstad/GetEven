@@ -62,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 3407201605950413555}
   m_LocalRotation: {x: 0, y: 0.93624675, z: 0, w: 0.35134324}
   m_LocalPosition: {x: -18.17, y: -0.021112232, z: -20.21}
-  m_LocalScale: {x: 1.3717409, y: 1.3717408, z: 1.3717409}
+  m_LocalScale: {x: 1.3717449, y: 1.3717445, z: 1.3717449}
   m_Children:
   - {fileID: 3405432788962084309}
   - {fileID: 3405542518653680533}
@@ -220,11 +220,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 8b58d880b808b894e8b31c53b4bfce7d, type: 3}
   faction: 0
-  _maxHp: 80
+  _maxHp: 120
   _sightRange: 30
   _fireRange: 20
   _fireRate: 0.5
-  _flinchTimeModifier: 0
+  _flinchTimeModifier: -0.8
   animator: {fileID: 0}
   _weaponExitPoint: {fileID: 3407094678886123557}
   _projectile: {fileID: 1843704343599634, guid: 7eee4611df2d7ad4f88e39510d851b2e,
@@ -242,6 +242,14 @@ MonoBehaviour:
   _dieSprite: {fileID: 21300000, guid: f5f9780ffd8f29b48b915ca27bd47ba5, type: 3}
   _painSprite: {fileID: 21300000, guid: b42e2a85d295a474f872005cc70cdc4e, type: 3}
   _deathGFX: {fileID: 100002, guid: e0c82e4cda44945d0918554b304e6d70, type: 3}
+  banterList:
+  - {fileID: 8300000, guid: 56f16dde126401249ab4db43aa670fd4, type: 3}
+  attackChatterList:
+  - {fileID: 8300000, guid: ba24314841549c24fbce39a510e13e4d, type: 3}
+  - {fileID: 8300000, guid: 9f954b48c94b3714e9c44baa71ebe2f7, type: 3}
+  - {fileID: 8300000, guid: 10de0de3b8160f44fb003cf20e41f360, type: 3}
+  - {fileID: 8300000, guid: c69bed430198adf4eb5a6a17b02fb83b, type: 3}
+  - {fileID: 8300000, guid: 1704e15ad23fea5499eb70b119cb3e72, type: 3}
 --- !u!114 &4270277748274793018
 MonoBehaviour:
   m_ObjectHideFlags: 0

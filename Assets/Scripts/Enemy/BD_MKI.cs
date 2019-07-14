@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ using UnityEngine;
 /// BattleDroid MK I
 /// 
 /// The class for Battledroid units. Also a test for the animation system.
+/// 
+/// Should be stronger healthwise, and less capable of stunning.
 /// 
 /// </summary>
 public class BD_MKI : BASE_EnemySoldier
@@ -30,6 +33,14 @@ public class BD_MKI : BASE_EnemySoldier
     private Sprite _painSprite;
     [SerializeField]
     private GameObject _deathGFX;
+
+    [SerializeField]
+    private AudioClip[] banterList = { };
+    [SerializeField]
+    private AudioClip[] attackChatterList = { };
+
+    private float nextTimeToBanter = 0f;
+
 
     private bool isMoveSprite1 = true;
     private bool isRunningSwapSprite = false;
@@ -70,7 +81,20 @@ public class BD_MKI : BASE_EnemySoldier
     {
         //ResetAnimation();
         base.DoIdle();
+        BanterCheck();
         _spriteRenderer.sprite = _idleSprite;
+    }
+
+    private void BanterCheck()
+    {
+        if (Time.time >= nextTimeToBanter)
+        {
+            nextTimeToBanter = Time.time + UnityEngine.Random.Range(5, 20);
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(banterList[UnityEngine.Random.Range(0, banterList.Length)]);
+            }
+        }
     }
 
     protected override void DoFire()
@@ -78,8 +102,18 @@ public class BD_MKI : BASE_EnemySoldier
         agent.isStopped = true;
         //ResetAnimation();
         base.DoFire();
+        CombatChatterCheck();
         _spriteRenderer.sprite = _fireSprite;
 
+    }
+
+    private void CombatChatterCheck()
+    {
+        if (Time.time >= nextTimeToBanter)
+        {
+            nextTimeToBanter = Time.time + UnityEngine.Random.Range(5, 20);
+            audioSource.PlayOneShot(attackChatterList[UnityEngine.Random.Range(0, attackChatterList.Length)]);
+        }
     }
 
     protected override void DoMove()

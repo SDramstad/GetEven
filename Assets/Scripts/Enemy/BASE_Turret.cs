@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BASE_Turret : A_ThreatCharacter
@@ -21,9 +22,13 @@ public class BASE_Turret : A_ThreatCharacter
 
     protected const float RANGE_TO_ALERT = 50f;
     protected const float TIME_TO_DIE = .9f;
+    protected const int SHOTS_IN_MAGAZINE = 30;
+    protected const float RELOADING_TIME = 2.2f;
 
     protected GameObject target;
     protected bool isDying;
+    private bool isReloading = false;
+    private int shotsFired = 0;
 
     //inspector prefabs
     [SerializeField]
@@ -40,6 +45,12 @@ public class BASE_Turret : A_ThreatCharacter
     protected AudioClip _deathSound;
     [SerializeField]
     protected AudioClip _alertSound;
+    [SerializeField]
+    protected AudioClip _reloadingSound;
+
+
+    [SerializeField]
+    protected AudioClip _reloadingVoice;
 
     protected AudioSource audioSource;
 
@@ -83,7 +94,10 @@ public class BASE_Turret : A_ThreatCharacter
     public override void TakeDamage(int damage)
     {
         //shout for help
-        Alert();
+        if (_awareness != AlertState.Aware)
+        {
+            Alert();
+        }
 
         //take damage
         _hp -= damage;
@@ -104,7 +118,21 @@ public class BASE_Turret : A_ThreatCharacter
 
     private void SelectTarget()
     {
-        target = GameObject.Find("Player");
+        target = FindClosestThreat();
+    }
+
+    private GameObject FindClosestThreat()
+    {
+        List<GameObject> localCombatants = GameObject.FindGameObjectsWithTag("Combatant").ToList<GameObject>();
+        localCombatants.Add(GameObject.Find("Player"));
+
+        //removes all localCombatants from the list that share the same faction
+        localCombatants.RemoveAll(p => p.GetComponent<A_ThreatCharacter>().GetFaction() == faction);
+
+        //returns the most nearby enemy
+        GameObject nearestEnemy = localCombatants.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
+
+        return nearestEnemy;
     }
 
     private void DecideActions()
@@ -252,15 +280,19 @@ public class BASE_Turret : A_ThreatCharacter
 
     private void DoFire()
     {
+        //check if need to reload
+        if (shotsFired >= SHOTS_IN_MAGAZINE && !isReloading)
+        {
+            isReloading = true;
+            audioSource.PlayOneShot(_reloadingSound);
+            audioSource.PlayOneShot(_reloadingVoice);
+            _timeLastFired = Time.time + RELOADING_TIME;
+            shotsFired = 0;
+        }
         //check if can fire again
         if ((Time.time - _timeLastFired) > _fireRate)
         {
-            //can fire
-
-            //animator
-
-            //animator.Play("Fire");
-
+            isReloading = false;
             //set time last fired to now
             _timeLastFired = Time.time;
 
@@ -276,10 +308,13 @@ public class BASE_Turret : A_ThreatCharacter
             {
                 _weaponExitPoint.transform.LookAt(hit.transform);
                 Instantiate(_projectile, _weaponExitPoint.transform.position, _weaponExitPoint.transform.rotation);
+                shotsFired++;
 
                 GameObject _tempParticleSystem = Instantiate(_muzzleFlashEffect, _weaponExitPoint.transform.position, _weaponExitPoint.transform.rotation);
                 Destroy(_tempParticleSystem, 3f);
+                audioSource.volume = .1f;
                 audioSource.PlayOneShot(_fireSound);
+                audioSource.volume = 1f;
             }
         }
         else
@@ -323,5 +358,7 @@ public class BASE_Turret : A_ThreatCharacter
     {
         _awareness = AlertState.Aware;
         //play alert sound
+        audioSource.PlayOneShot(_alertSound);
+        _timeLastFired = Time.time + 2f;
     }
 }

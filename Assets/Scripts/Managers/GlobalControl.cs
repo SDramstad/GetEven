@@ -10,6 +10,7 @@ public class GlobalControl : MonoBehaviour {
     public PlayerData savedPlayerData = new PlayerData();
     public List<AreaData> savedAreaData = new List<AreaData>();
     public List<Mission> MissionList = new List<Mission>();
+    public List<GameObject> RandomLootTable = new List<GameObject>();
 
     public string[] tips = { "Make sure not to die.", "Try to avoid getting shot.", "Guns require ammofood. Make sure to feed your guns.","Aren't loading screens fun?","Molemen can be killed by a knife without getting hurt. If you're good.","Death is a learning experience. Make sure to die in enlightening ways." };
 

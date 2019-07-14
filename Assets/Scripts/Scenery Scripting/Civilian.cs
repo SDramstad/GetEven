@@ -77,13 +77,15 @@ public class Civilian : A_TakesDamage {
         }
         else
         {            
-            _ui.SetConversationText(characterName, dialogueList[currentDialogueIndex], durationDialogue);
-            if (currentDialogueIndex > dialogueList.Count)
+            
+            if (currentDialogueIndex > dialogueList.Count-1)
             {
                 currentDialogueIndex = 0;
+                _ui.SetConversationText(characterName, dialogueList[currentDialogueIndex], durationDialogue);
             }
             else
             {
+                _ui.SetConversationText(characterName, dialogueList[currentDialogueIndex], durationDialogue);
                 currentDialogueIndex++;
             }
         }

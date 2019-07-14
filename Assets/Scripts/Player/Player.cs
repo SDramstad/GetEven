@@ -42,6 +42,7 @@ public class Player : A_ThreatCharacter {
     public AudioClip pickupSound;
     private GameObject flashlight;
 
+
     //sets the time regen can start kicking in
     private float canHealTime;
 
@@ -52,8 +53,7 @@ public class Player : A_ThreatCharacter {
         LoadPlayer();
 
         //debug tetsing
-        Debug.Log("Am i a super boy? Should be a 7: " + localPlayerData.sk_speed);
-        localPlayerData.difficulty = 4;
+        //Debug.Log("Am i a super boy? Should be a 7: " + localPlayerData.sk_speed);;
 
         armor = 0;
         isMale = true;
@@ -108,6 +108,27 @@ public class Player : A_ThreatCharacter {
         GlobalControl.Instance.savedPlayerData.sk_speed = GetComponent<FirstPersonController>().m_WalkSpeed;
     }
 
+    public void OverChargePlayer()
+    {
+        Debug.Log("Maxxing out character.");
+        //GetComponent<Ammo>().tagToAmmo[Constants.Handgun] = 255;
+        //GetComponent<Ammo>().tagToAmmo[Constants.Shotgun] = 255;
+        //GetComponent<Ammo>().tagToAmmo[Constants.Rifle] = 2550;
+        GetComponent<WeaponSwitcher>().hasKnife = true;
+        GetComponent<WeaponSwitcher>().hasPistol = true;
+        GetComponent<WeaponSwitcher>().hasShotgun = true;
+        GetComponent<WeaponSwitcher>().hasRifle = true;
+        localPlayerData.hp = 200;
+        localPlayerData.maxhp = 200;
+        localPlayerData.difficulty = 1;
+        Debug.Log("Speed is currently: " + GetComponent<FirstPersonController>().m_WalkSpeed);
+        Debug.Log("Speed in GlobalControl is " + GlobalControl.Instance.savedPlayerData.sk_speed);
+        GetComponent<FirstPersonController>().m_JumpSpeed = GlobalControl.Instance.savedPlayerData.sk_jump;
+        GetComponent<FirstPersonController>().m_WalkSpeed = GlobalControl.Instance.savedPlayerData.sk_speed * 2;
+        GetComponent<FirstPersonController>().m_RunSpeed = GlobalControl.Instance.savedPlayerData.sk_speed * 4;
+
+    }
+
     public override void TakeDamage(int amount)
     {
         int healthDamage = amount;
@@ -131,11 +152,11 @@ public class Player : A_ThreatCharacter {
         }
 
         //difficulty damage adjustments
-        Debug.Log("Health DMG before diff mod: " + healthDamage);
+        //Debug.Log("Health DMG before diff mod: " + healthDamage);
         float tempHealthDamage = (float)healthDamage;
         tempHealthDamage *= localPlayerData.GetDifficulty_PlayerDamageMod();
         healthDamage = (int)System.Math.Round(tempHealthDamage);
-        Debug.Log("Health DMG after diff mod: " + healthDamage);
+        //Debug.Log("Health DMG after diff mod: " + healthDamage);
 
         if (invincActive)
         {
@@ -185,6 +206,8 @@ public class Player : A_ThreatCharacter {
                 flashlight.SetActive(true);
             }
         }
+
+        
     }
 
     void healthRegen()

@@ -42,7 +42,8 @@ public class Ammo : MonoBehaviour {
             {Constants.Frag, 0},
         };
     }
-    
+
+
     public int[] gatherAmmoList()
     {
         int[] ammoList = { tagToAmmo[Constants.Handgun], tagToAmmo[Constants.Shotgun], tagToAmmo[Constants.Rifle], tagToAmmo[Constants.Rocketgun], tagToAmmo[Constants.Frag] };
@@ -164,4 +165,6 @@ public class Ammo : MonoBehaviour {
 
         tagToAmmo[tag]--;
     }
+
+    
 }
