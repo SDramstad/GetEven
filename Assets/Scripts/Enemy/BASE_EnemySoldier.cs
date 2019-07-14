@@ -116,7 +116,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        SelectTarget();
+        //SelectTarget();
         //_awareness = AlertState.Unaware;
     }
 
@@ -142,7 +142,6 @@ public class BASE_EnemySoldier : A_ThreatCharacter
 
                 break;
             case AlertState.Aware:
-                //Debug.Log("I'm " + _awareness + " and " + _state + "!");
 
                 //figure out which state is appropriate
                 RecheckState();
@@ -173,7 +172,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
                 }
                 break;
             case AlertState.Panic:
-                Debug.Log("ERROR: Soldier's Alert state should not be in PANIC, as it is not implemented.");
+                Debug.Log("ERROR:" + gameObject.name + "'s Alert state should not be in PANIC, as it is not implemented.");
                 break;
             default:
                 break;
@@ -326,21 +325,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
     /// </summary>
     protected void SelectTarget()
     {
-        //search for local enemies
-        //target = GameObject.Find("Player");
-
-        target = FindClosestThreat();
-
-        //try
-        //{
-        //    target = FindClosestThreat();
-
-        //}
-        //catch (NullReferenceException ex)
-        //{
-        //    target = GameObject.Find("Player");
-        //}
-
+        target = FindClosestThreat();        
     }
 
     private GameObject FindClosestThreat()
@@ -360,9 +345,6 @@ public class BASE_EnemySoldier : A_ThreatCharacter
     protected virtual void DoIdle()
     {
 
-        //animator.Play("Idle");
-        //play idle animation   
-        //play idle sounds     
     }
 
     protected virtual void DoPain()

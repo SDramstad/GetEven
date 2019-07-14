@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 1201441027406622519}
   m_Layer: 0
   m_Name: SSF_GruntElite
-  m_TagString: Enemy
+  m_TagString: Combatant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 2d2e15aeb3a89f045980bb511260c375, type: 3}
+  faction: 0
   _maxHp: 120
   _sightRange: 90
   _fireRange: 30

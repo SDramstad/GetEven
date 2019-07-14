@@ -1853,6 +1853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 2d2e15aeb3a89f045980bb511260c375, type: 3}
+  faction: 1
   armor: 3
   uiManager: {fileID: 0}
   gameManager: {fileID: 0}
@@ -1888,6 +1889,7 @@ MonoBehaviour:
   maxShotgunAmmo: 99
   maxRocketAmmo: 99
   maxRifleAmmo: 250
+  maxFragAmmo: 5
 --- !u!114 &114442470918706634
 MonoBehaviour:
   m_ObjectHideFlags: 0

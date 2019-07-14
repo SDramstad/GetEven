@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 5898541273156998690}
   m_Layer: 0
   m_Name: SSF_SniperStationary
-  m_TagString: Enemy
+  m_TagString: Combatant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -487,6 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 2d2e15aeb3a89f045980bb511260c375, type: 3}
+  faction: 0
   _maxHp: 60
   _sightRange: 120
   _fireRange: 120
@@ -503,7 +504,6 @@ MonoBehaviour:
   _deathSound: {fileID: 8300000, guid: 647bb33d4de860c4497a0f4207ddc3ed, type: 3}
   _state: 0
   _awareness: 1
-  laserSight: {fileID: 4717437282789036979}
   lastKnownPositionOfTarget: {fileID: 0}
 --- !u!114 &8847755560257181273
 MonoBehaviour:
@@ -518,6 +518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 2d2e15aeb3a89f045980bb511260c375, type: 3}
+  faction: 0
   _maxHp: 60
   _sightRange: 120
   _fireRange: 120

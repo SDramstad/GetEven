@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 1201441027406622519}
   m_Layer: 0
   m_Name: TEST_BaseSoldier
-  m_TagString: Enemy
+  m_TagString: Combatant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,16 +219,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 2d2e15aeb3a89f045980bb511260c375, type: 3}
+  faction: 0
   _maxHp: 60
   _sightRange: 40
   _fireRange: 15
   _fireRate: 1.1
+  _flinchTimeModifier: 0
   animator: {fileID: 0}
   _weaponExitPoint: {fileID: 1444384942862006060}
   _projectile: {fileID: 1843704343599634, guid: d5f9cc9c192e7de428d68d9f0f543ec5,
     type: 3}
   _muzzleFlashEffect: {fileID: 100000, guid: be88b2d0e94795d4998fa441a5a3c915, type: 3}
   _fireSound: {fileID: 8300000, guid: 229d7d72b39edab49abc321020be2e5e, type: 3}
+  _painSound: {fileID: 0}
+  _deathSound: {fileID: 0}
+  _state: 0
+  _awareness: 0
 --- !u!114 &1262187827
 MonoBehaviour:
   m_ObjectHideFlags: 0

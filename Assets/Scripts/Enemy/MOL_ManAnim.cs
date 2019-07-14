@@ -53,6 +53,7 @@ public class MOL_ManAnim : BASE_EnemySoldier
     protected override void Update()
     {
         base.Update();
+        //Debug.Log("Target Name : " + target.name);
         //if moving, check to swap side of sprite
         if (_state == SoldierState.MovingTo || _state == SoldierState.Repositioning)
         {
@@ -85,13 +86,12 @@ public class MOL_ManAnim : BASE_EnemySoldier
             _state = SoldierState.Death;
             return;
         }
-
+                
         //only bother to do this when Aware
         if (_awareness == AlertState.Aware)
         {
             //generic AI set up
 
-           // Debug.Log(_flinchTime);
             //CONSIDER: should check if flinching?
             if (_flinchTime > 0)
             {

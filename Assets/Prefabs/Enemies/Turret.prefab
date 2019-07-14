@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 5759093752844275223}
   m_Layer: 0
   m_Name: Turret
-  m_TagString: Untagged
+  m_TagString: Combatant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 8b58d880b808b894e8b31c53b4bfce7d, type: 3}
+  faction: 0
   _maxHp: 500
   _sightRange: 100
   _fireRange: 75

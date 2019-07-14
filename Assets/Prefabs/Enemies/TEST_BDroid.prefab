@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 3165875246053003326}
   m_Layer: 0
   m_Name: TEST_BDroid
-  m_TagString: Enemy
+  m_TagString: Combatant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   painGFX: {fileID: 198000011254678926, guid: 8b58d880b808b894e8b31c53b4bfce7d, type: 3}
+  faction: 0
   _maxHp: 80
   _sightRange: 30
   _fireRange: 20
