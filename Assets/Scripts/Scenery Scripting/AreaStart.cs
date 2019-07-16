@@ -16,6 +16,14 @@ public class AreaStart : MonoBehaviour {
 
     [SerializeField]
     private bool DebugModeMaxxedPlayer = false;
+
+    void Awake()
+    {
+        if (DebugModeMaxxedPlayer)
+        {
+            GlobalControl.Instance.savedPlayerData = new PlayerData(true);
+        }
+    }
     
     // Use this for initialization
     void Start()

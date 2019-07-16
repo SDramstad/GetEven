@@ -427,10 +427,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
         if ((Time.time - _timeLastFired) > _fireRate)
         {
             //can fire
-
-            //animator
-
-            //animator.Play("Fire");
+            //GetComponentInParent<TEST_LookAtTarget>().TakeALook(target.transform);
 
             //set time last fired to now
             _timeLastFired = Time.time;

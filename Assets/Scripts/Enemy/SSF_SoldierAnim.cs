@@ -138,7 +138,38 @@ public class SSF_SoldierAnim : BASE_EnemySoldier
             _spriteRenderer.sprite = _fireSprite1;
         }
 
-        base.DoFire();
+        //check if can fire again
+        if ((Time.time - _timeLastFired) > _fireRate)
+        {
+            //can fire
+            StartCoroutine("ResetAttackAnim");
+
+            //set time last fired to now
+            _timeLastFired = Time.time;
+
+            //raycasting for determining the line to shoot
+            Vector3 direction = target.transform.position - transform.position;
+            Ray ray = new Ray(transform.position, direction);
+            RaycastHit hit;
+
+            Debug.DrawRay(transform.position, direction, Color.red);
+
+            if (Physics.Raycast(ray, out hit, _fireRange))
+            {
+                _weaponExitPoint.transform.LookAt(hit.transform);
+                Instantiate(_projectile, _weaponExitPoint.transform.position, _weaponExitPoint.transform.rotation);
+
+                GameObject _tempParticleSystem = Instantiate(_muzzleFlashEffect, _weaponExitPoint.transform.position, _weaponExitPoint.transform.rotation);
+                Destroy(_tempParticleSystem, 3f);
+                //soldierAnimations.Play("Fire");
+                audioSource.PlayOneShot(_fireSound);
+            }
+        }
+        else
+        {
+            //wait
+        }
+        
     }
 
     protected override void DoIdle()

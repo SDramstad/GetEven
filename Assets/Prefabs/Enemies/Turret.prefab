@@ -333,14 +333,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5759093752844275219}
-  m_LocalRotation: {x: -0, y: 0.32673174, z: -0, w: 0.9451172}
+  m_LocalRotation: {x: 0, y: 0.32673135, z: 0, w: 0.9451173}
   m_LocalPosition: {x: -24.54, y: 1.853, z: 17.97}
   m_LocalScale: {x: 1.1111112, y: 1.1111112, z: 1.1111112}
   m_Children:
   - {fileID: 5759093753442650936}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 38.141003, z: 0}
 --- !u!114 &5759093752844275221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,14 +360,16 @@ MonoBehaviour:
   _fireRange: 75
   _fireRate: 0.1
   _weaponExitPoint: {fileID: 5759093751555303971}
-  _projectile: {fileID: 1843704343599634, guid: 7eee4611df2d7ad4f88e39510d851b2e,
+  _projectile: {fileID: 1843704343599634, guid: a8850b67b2bcad344a53e5194f7f721a,
     type: 3}
   _muzzleFlashEffect: {fileID: 1000010254994808, guid: 9defeac88977c0d448aa4541073ee9e4,
     type: 3}
   _fireSound: {fileID: 8300000, guid: 04b07d6afabd5124ea0364eb8516d922, type: 3}
   _painSound: {fileID: 8300000, guid: 95ef466cc70ac1243b2a67ce86e4a30b, type: 3}
   _deathSound: {fileID: 8300000, guid: 7c33ec9394a89604299e2b41d6ffe100, type: 3}
-  _alertSound: {fileID: 8300000, guid: 7c33ec9394a89604299e2b41d6ffe100, type: 3}
+  _alertSound: {fileID: 8300000, guid: 99a654880935c63418b80f4b6ea3fb55, type: 3}
+  _reloadingSound: {fileID: 8300000, guid: af40bd0ed4645fd4080149693c07ae8d, type: 3}
+  _reloadingVoice: {fileID: 8300000, guid: 8f400c2bd07ce2048ac1f9d7033e35bf, type: 3}
   turretBody: {fileID: 5759093751535349493}
   _state: 0
   _awareness: 0
@@ -700,10 +702,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4f477167fc0be5e4dab9a125b37c42ad, type: 2}
-    - target: {fileID: 2300000, guid: d4d784ace59bcac4da9229ef5eaf8659, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4d784ace59bcac4da9229ef5eaf8659, type: 3}
 --- !u!4 &5759093752871073213 stripped
@@ -722,10 +720,6 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 4d17c24db5d1ec24c9f0ee6c2c3f7808, type: 3}
       propertyPath: m_Name
       value: turret_body
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 4d17c24db5d1ec24c9f0ee6c2c3f7808, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4d17c24db5d1ec24c9f0ee6c2c3f7808, type: 3}
       propertyPath: m_LocalPosition.x
