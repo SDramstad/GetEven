@@ -89,7 +89,7 @@ public class BD_MKI : BASE_EnemySoldier
     {
         if (Time.time >= nextTimeToBanter)
         {
-            nextTimeToBanter = Time.time + UnityEngine.Random.Range(5, 20);
+            nextTimeToBanter = Time.time + UnityEngine.Random.Range(5, 70);
             if (!audioSource.isPlaying)
             {
                 audioSource.PlayOneShot(banterList[UnityEngine.Random.Range(0, banterList.Length)]);

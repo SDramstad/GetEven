@@ -455,7 +455,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -1264,8 +1264,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035099803}
-  m_LocalRotation: {x: 0.14144388, y: 0.8523285, z: 0.29591957, w: -0.4073836}
-  m_LocalPosition: {x: 49.688602, y: 3.2762737, z: 41.35346}
+  m_LocalRotation: {x: 0.029402997, y: 0.8523761, z: 0.048213422, w: -0.51987106}
+  m_LocalPosition: {x: 112.67991, y: -5.9013042, z: 63.524586}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 773788669}
@@ -3610,21 +3610,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114763515453452662, guid: 0f605f5bb6133a444830a84f031f5e48,
-        type: 3}
-      propertyPath: uiManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114763515453452662, guid: 0f605f5bb6133a444830a84f031f5e48,
-        type: 3}
-      propertyPath: gameManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114763515453452662, guid: 0f605f5bb6133a444830a84f031f5e48,
-        type: 3}
-      propertyPath: faction
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4131519628950486, guid: 0f605f5bb6133a444830a84f031f5e48, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.11
@@ -3668,6 +3653,21 @@ PrefabInstance:
     - target: {fileID: 4131519628950486, guid: 0f605f5bb6133a444830a84f031f5e48, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114763515453452662, guid: 0f605f5bb6133a444830a84f031f5e48,
+        type: 3}
+      propertyPath: uiManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114763515453452662, guid: 0f605f5bb6133a444830a84f031f5e48,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114763515453452662, guid: 0f605f5bb6133a444830a84f031f5e48,
+        type: 3}
+      propertyPath: faction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1964536551, guid: 0f605f5bb6133a444830a84f031f5e48, type: 3}
       propertyPath: m_IsActive

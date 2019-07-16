@@ -44,7 +44,7 @@ public class MOL_ManAnim : BASE_EnemySoldier
         base.Start();
         _flinchTimeModifier = 0f;
         agent.speed = UnityEngine.Random.Range(6.5f, 8.5f);
-        time_to_swap_sprite = UnityEngine.Random.Range(0.6f, 1.3f);
+        time_to_swap_sprite = UnityEngine.Random.Range(0.1f, 0.15f);
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _lastSwitched = 0f;
     }

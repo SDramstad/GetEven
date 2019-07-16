@@ -31,11 +31,16 @@ public class Projectile : MonoBehaviour {
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.GetComponent<A_TakesDamage>() != null)
+        //dont stop if hitting a trigger
+        if (collider.isTrigger == false)
         {
-            collider.gameObject.GetComponent<A_TakesDamage>().TakeDamage(damage);            
-        }        
-        Destroy(gameObject);
+            if (collider.gameObject.GetComponent<A_TakesDamage>() != null)
+            {
+                collider.gameObject.GetComponent<A_TakesDamage>().TakeDamage(damage);
+            }
+            Destroy(gameObject);
+        }
+        
 
     }
 

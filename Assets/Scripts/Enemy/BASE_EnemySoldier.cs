@@ -27,7 +27,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
     protected float _fireCooldown;
     protected float _timeLastFired;
     [SerializeField]
-    protected float _flinchTimeModifier;
+    protected float _flinchTimeModifier = 1.0f;
 
     protected const float RANGE_TO_ALERT = 20f;
     protected const float FLINCH_TIME = .4f;
@@ -102,8 +102,9 @@ public class BASE_EnemySoldier : A_ThreatCharacter
                 audioSource.PlayOneShot(_painSound);
             }
             //set up rules for how much damage to cause pain, how long stun state should be
-            _flinchTime = (FLINCH_TIME + (float)(damage * _flinchTimeModifier));
-            Debug.Log("Adding flinctime " + _flinchTime);
+            _flinchTime = (FLINCH_TIME + ((float)damage) * 0.05f) * (_flinchTimeModifier + 1);
+            //_flinchTime = ((FLINCH_TIME * _flinchTimeModifier) + ((float)damage * _flinchTimeModifier));
+            //Debug.Log("Adding flinctime " + _flinchTime);
         }
 
     }
@@ -112,7 +113,6 @@ public class BASE_EnemySoldier : A_ThreatCharacter
     protected virtual void Start()
     {
         _hp = _maxHp;
-        _flinchTimeModifier = 0.1f;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -264,12 +264,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
             {
                 _state = SoldierState.MovingTo;
             }
-
-            if (agent.isOnOffMeshLink)
-            {
-                //use jump sprite
-                //Debug.Log("Is jumping.");
-            }
+                        
             
 
 
@@ -355,7 +350,6 @@ public class BASE_EnemySoldier : A_ThreatCharacter
     {
         //transform.LookAt(target.transform);
         agent.isStopped = false;
-        //animator.Play("Running");
         agent.SetDestination(target.transform.position);
     }
 

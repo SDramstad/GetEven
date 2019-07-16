@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 958951864081114908}
   - component: {fileID: 1820928221864851410}
   - component: {fileID: 714203918369910230}
-  - component: {fileID: 610576091995866383}
+  - component: {fileID: 2142803327}
   m_Layer: 0
   m_Name: MOL_Man
   m_TagString: Combatant
@@ -342,7 +342,7 @@ MonoBehaviour:
   _sightRange: 30
   _fireRange: 4
   _fireRate: 1.5
-  _flinchTimeModifier: 0
+  _flinchTimeModifier: -0.1
   animator: {fileID: 0}
   _weaponExitPoint: {fileID: 958775111504229837}
   _projectile: {fileID: 100000, guid: 087f20c8d6503ac4fad73c2b5ec234bd, type: 3}
@@ -391,7 +391,7 @@ CapsuleCollider:
   m_Height: 2.9871545
   m_Direction: 1
   m_Center: {x: 0, y: 0.9935773, z: 0}
---- !u!114 &610576091995866383
+--- !u!114 &2142803327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -403,3 +403,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6347fefe7aaec6542981b18edf9b9e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: 20
