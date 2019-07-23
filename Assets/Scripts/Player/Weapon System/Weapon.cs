@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour {
     public UIManager uiManager;
     private GameObject crosshair_notarget;
     private GameObject crosshair_target;
+    private GameObject crosshair_shotgun_notarget;
+    private GameObject crosshair_shotgun_target;
     public GameObject muzzleFlashGFX;
     public GameObject bulletExitPoint;
 
@@ -38,7 +40,7 @@ public class Weapon : MonoBehaviour {
         baseFireRate = fireRate;
     }
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
         zoomFOV = Constants.CameraDefaultZoom / zoomFactor;
         //Depreciated, ammo is stored within localPlayerData now
         //ammo = GameObject.Find("AmmoManager").GetComponent<Ammo>();
@@ -94,7 +96,7 @@ public class Weapon : MonoBehaviour {
         }
     }
 
-    protected void Attack()
+    protected virtual void Attack()
     {
         if (ammo.HasAmmo(tag))
         {

@@ -123,14 +123,29 @@ public class BASE_Turret : A_ThreatCharacter
 
     private GameObject FindClosestThreat()
     {
+        GameObject nearestEnemy;
+
         List<GameObject> localCombatants = GameObject.FindGameObjectsWithTag("Combatant").ToList<GameObject>();
         localCombatants.Add(GameObject.Find("Player"));
 
         //removes all localCombatants from the list that share the same faction
         localCombatants.RemoveAll(p => p.GetComponent<A_ThreatCharacter>().GetFaction() == faction);
 
+        //check if they can currently see target
+        for (int i = 0; i < localCombatants.Count; i++)
+        {
+
+        }
+
         //returns the most nearby enemy
-        GameObject nearestEnemy = localCombatants.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
+        if (localCombatants.Count == 0)
+        {
+            nearestEnemy = null;
+        }
+        else
+        {
+            nearestEnemy = localCombatants.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
+        }
 
         return nearestEnemy;
     }

@@ -298,7 +298,8 @@ public class ALLY_TestB : SSF_SoldierAnim
             {
                 //if no targets on map, assume they're miles away
                 targetDistance = 5000f;
-                throw;
+                target = player;
+                //throw;
             }
 
             //if player too far away, go for them

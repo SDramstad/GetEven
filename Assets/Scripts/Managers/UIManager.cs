@@ -56,8 +56,13 @@ public class UIManager : MonoBehaviour {
     private Sprite crosshair_target;
     [SerializeField]
     private Sprite crosshair_notarget;
+    [SerializeField]
+    private Sprite crosshair_shotgun_target;
+    [SerializeField]
+    private Sprite crosshair_shotgun_notarget;
 
-
+    //weaponSwitcher
+    private WeaponSwitcher _weaponSwitcher;
 
     // Use this for initialization
     void Start () {
@@ -66,7 +71,7 @@ public class UIManager : MonoBehaviour {
         _pauseMenu = GameObject.Find("PauseMenuPanel");
 
         player = GameObject.Find("Player");
-
+        _weaponSwitcher = player.GetComponent<WeaponSwitcher>();
         //must go after player is declared
         togglePauseMenuVisibility();
 
@@ -92,13 +97,38 @@ public class UIManager : MonoBehaviour {
 
     public void CrosshairTargetInSight(bool targetPresent)
     {
+        bool shotgunEquipped = false;
+
+        if (_weaponSwitcher.GetActiveWeapon() == _weaponSwitcher.shotgun)
+        {
+            shotgunEquipped = true;
+        }
+
         if (targetPresent)
         {
-            _crosshair.sprite = crosshair_target;
+            if (shotgunEquipped)
+            {
+                _crosshair.sprite = crosshair_shotgun_target;
+
+            }
+            else
+            {
+                _crosshair.sprite = crosshair_target;
+
+            }
         }
         else
         {
-            _crosshair.sprite = crosshair_notarget;
+            if (shotgunEquipped)
+            {
+                _crosshair.sprite = crosshair_shotgun_notarget;
+
+            }
+            else
+            {
+                _crosshair.sprite = crosshair_notarget;
+
+            }
         }
 
     }

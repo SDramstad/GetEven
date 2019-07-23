@@ -186,7 +186,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
         {
             //Debug.Log("In range.");            
             //if clear line of sight
-            if (CheckClearLineOfSight())
+            if (CheckClearLineOfSight(target))
             {
                 //Debug.Log("In Line of sight.");
                 Alert();
@@ -296,7 +296,7 @@ public class BASE_EnemySoldier : A_ThreatCharacter
     }
 
     //Check there's actually a line of sight
-    protected bool CheckClearLineOfSight()
+    protected bool CheckClearLineOfSight(GameObject mainTarget)
     {
         bool isClear = false;
         RaycastHit hit;
@@ -324,15 +324,44 @@ public class BASE_EnemySoldier : A_ThreatCharacter
 
     private GameObject FindClosestThreat()
     {
+        GameObject nearestEnemy;
+
+        //list of all Combatants in level
         List<GameObject> localCombatants = GameObject.FindGameObjectsWithTag("Combatant").ToList<GameObject>();
+
+        //a list of backup combatants, for targets that are less viable than others
+        //List<GameObject> backupTargets;
+
         localCombatants.Add(GameObject.Find("Player"));
 
         //removes all localCombatants from the list that share the same faction
         localCombatants.RemoveAll(p => p.GetComponent<A_ThreatCharacter>().GetFaction() == faction);
-        
+
+        //check if they can currently see target
+        //int[] badIndexes = new int[localCombatants.Count + 1];
+        //for (int i = 0; i < localCombatants.Count; i++)
+        //{            
+        //    if (!CheckClearLineOfSight(localCombatants[i]))
+        //    {
+        //        badIndexes.Append(i);
+        //    }
+        //}
+
+        //foreach (var item in badIndexes)
+        //{
+        //    localCombatants.RemoveAt(item);
+        //}
+
         //returns the most nearby enemy
-        GameObject nearestEnemy = localCombatants.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
-        
+        if (localCombatants.Count == 0)
+        {
+            nearestEnemy = null;
+        }
+        else
+        {
+            nearestEnemy = localCombatants.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
+        }
+
         return nearestEnemy;
     }
 
@@ -433,7 +462,9 @@ public class BASE_EnemySoldier : A_ThreatCharacter
             _timeLastFired = Time.time;
 
             //raycasting for determining the line to shoot
-            Vector3 direction = target.transform.position - transform.position;
+
+            //add the new vector3 to have it shoot at the target's midsection
+            Vector3 direction = (target.transform.position) - transform.position;
             Ray ray = new Ray(transform.position, direction);
             RaycastHit hit;
 
@@ -441,7 +472,8 @@ public class BASE_EnemySoldier : A_ThreatCharacter
 
             if (Physics.Raycast(ray, out hit, _fireRange))
             {
-                _weaponExitPoint.transform.LookAt(hit.transform);
+                //the new vector3 makes sure the bullet will track towards the target's midsection
+                _weaponExitPoint.transform.LookAt(hit.transform.position + new Vector3(0.0f, 0.6f, 0.0f));
                 Instantiate(_projectile, _weaponExitPoint.transform.position, _weaponExitPoint.transform.rotation);
 
                 GameObject _tempParticleSystem = Instantiate(_muzzleFlashEffect, _weaponExitPoint.transform.position, _weaponExitPoint.transform.rotation);
