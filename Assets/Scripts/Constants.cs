@@ -30,6 +30,15 @@ public class Constants
         RAPIDFIRE
     };
 
+    //Faction
+    public enum Faction
+    {
+        State,
+        Player,
+        Crime,
+        Mutant
+    }
+
     public const float rapidFireTime = 35f;
     public const float invincibilityTime = 35f;
 

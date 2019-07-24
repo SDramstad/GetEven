@@ -7,8 +7,8 @@ public class Shotgun : Weapon
 
     [SerializeField]
     private int pellets = 6;
-    //[SerializeField]
-    //private GameObject _projectile;
+    [SerializeField]
+    private GameObject _projectile;
 
     //value used for shotgun pellet dispersion
     [SerializeField]
@@ -62,18 +62,30 @@ public class Shotgun : Weapon
             // for each ray, handle hits
             foreach (var ray in rays)
             {
+
+                //test instantiate pellets
+                //RESULTS: lookAt does not work well, player projectiles also may need to check to make sure they dont hurt the player
+                //otherwise you can hit your bullets while falling and die
+                //Ray centerRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                //RaycastHit hitDirection;
+
+                //if (Physics.Raycast(ray, out hitDirection))
+                //{
+                //}
+
+                //exit point needs to be calibrated to fit gear
+                Vector3 currentBulletPoint = bulletExitPoint.transform.position + 
+                    new Vector3(UnityEngine.Random.Range(-0.3f,0.3f), UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.3f, 0.3f)); 
+                Quaternion currentBulletRotation = bulletExitPoint.transform.rotation;
+                Instantiate(_projectile, currentBulletPoint,
+                    currentBulletRotation);
+
                 RaycastHit hit;
 
                 if (Physics.Raycast(ray, out hit, range))
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red, 5f);
-
-                    //test instantiate pellets
-                    //RESULTS: lookAt does not work well, player projectiles also may need to check to make sure they dont hurt the player
-                    //otherwise you can hit your bullets while falling and die
-                    //bulletExitPoint.transform.LookAt(hit.transform.position);
-                    //Instantiate(_projectile, bulletExitPoint.transform.position, bulletExitPoint.transform.rotation);
-
+                    
                     if (hit.rigidbody)
                     {
                         hit.rigidbody.AddForceAtPosition(force * transform.forward, hit.point);

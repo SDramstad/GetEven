@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Constants;
 
 public class Projectile : MonoBehaviour {
 
     public float speed;
     public int damage;
-    public Vector3 targetDirection;
+    public GameObject hitFX;
+    //everytime the bullet gets this far from start, damage is lowered.
+    public float rangeIncrements;
+
+    //who fired this projectile? should be used to make sure people can't hurt their own team
+    public Faction factionOwner;
+
     //public GameObject target;
 
 	// Use this for initialization
@@ -34,10 +41,29 @@ public class Projectile : MonoBehaviour {
         //dont stop if hitting a trigger
         if (collider.isTrigger == false)
         {
+            if (collider.gameObject.GetComponent<Projectile>() != null)
+            {
+                Debug.Log("Projectile hit projectile. Time : " + Time.time);
+            }
             if (collider.gameObject.GetComponent<A_TakesDamage>() != null)
             {
-                collider.gameObject.GetComponent<A_TakesDamage>().TakeDamage(damage);
+
+                if (collider.gameObject.GetComponent<A_ThreatCharacter>().GetFaction() == factionOwner)
+                {
+                    Debug.Log("A friendly fire 'accident' has occurred. No damage has been dealt.");
+                }
+                else
+                {
+                    collider.gameObject.GetComponent<A_TakesDamage>().TakeDamage(damage);
+                }
             }
+
+            if (hitFX != null)
+            {
+                GameObject _tempParticleSystem = Instantiate(hitFX, transform.position, transform.rotation);
+                Destroy(_tempParticleSystem, 2f);
+            }
+
             Destroy(gameObject);
         }
         

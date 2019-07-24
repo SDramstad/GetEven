@@ -2,16 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Constants;
 
 public class A_ThreatCharacter : A_TakesDamage
 {
-    public enum Faction
-    {
-        State,
-        Player,
-        Crime,
-        Mutant
-    }
+    //public enum Faction
+    //{
+    //    State,
+    //    Player,
+    //    Crime,
+    //    Mutant
+    //}
 
     [SerializeField]
     protected Faction faction;
