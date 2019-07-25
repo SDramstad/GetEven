@@ -251,9 +251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952892b6af19dda449b1a9a7cd309800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 90
   damage: 15
   hitFX: {fileID: 100000, guid: be88b2d0e94795d4998fa441a5a3c915, type: 3}
+  rangeIncrements: 0
   factionOwner: 1
 --- !u!135 &135673658452563508
 SphereCollider:

@@ -15,7 +15,7 @@ public class WeaponSwitcher : MonoBehaviour
     public GameObject knife;
     public GameObject pistol;
     public GameObject shotgun;
-    //public GameObject rocketgun;
+    public GameObject rocketgun;
     public GameObject unarmed;
     public GameObject rifle;
     public GameObject frag;
@@ -63,7 +63,7 @@ public class WeaponSwitcher : MonoBehaviour
         pistol.SetActive(false);
         shotgun.SetActive(false);
         rifle.SetActive(false);
-        //rocketgun.SetActive(false);
+        rocketgun.SetActive(false);
         unarmed.SetActive(false);
 
         weapon.SetActive(true);
@@ -104,13 +104,13 @@ public class WeaponSwitcher : MonoBehaviour
             activeWeaponType = Constants.Rifle;
             //gameUI.UpdateReticle();
         }
-        //else if (Input.GetButtonDown("Rocketgun") && hasRocketgun)
-        //{
-        //    Debug.Log("Rocket button pressed.");      
-        //    loadWeapon(rocketgun);
-        //    activeWeaponType = Constants.Rocketgun;
-        //    //gameUI.UpdateReticle();
-        //}
+        else if (Input.GetButtonDown("Rocketgun") && hasRocketgun)
+        {
+            Debug.Log("Rocket button pressed.");
+            loadWeapon(rocketgun);
+            activeWeaponType = Constants.Rocketgun;
+            //gameUI.UpdateReticle();
+        }
         else if (Input.GetButtonDown("Grenade"))
         {
             //CHECK FOR AMMO COUNT

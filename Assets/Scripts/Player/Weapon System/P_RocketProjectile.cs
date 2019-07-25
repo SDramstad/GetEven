@@ -10,7 +10,7 @@ public class P_RocketProjectile : MonoBehaviour
     [SerializeField]
     private AudioClip deathSound;
     [SerializeField]
-    private ParticleSystem deathGFX;
+    private GameObject deathGFX_object;
 
     // Use this for initialization
     void Start()
@@ -31,7 +31,7 @@ public class P_RocketProjectile : MonoBehaviour
     IEnumerator DeathTimer()
     {
         yield return new WaitForSeconds(25);
-        Destroy(gameObject);
+        explode();
     }
 
     /**
@@ -39,7 +39,10 @@ public class P_RocketProjectile : MonoBehaviour
      * */
     IEnumerator DeathTimer2()
     {
-        yield return new WaitForSeconds(0.1f);
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        GetComponent<TrailRenderer>().enabled = false;
+        GetComponent<BoxCollider>().enabled = false;
+        yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
 
@@ -94,6 +97,7 @@ public class P_RocketProjectile : MonoBehaviour
             i++;
         }
         GetComponent<AudioSource>().PlayOneShot(deathSound);
-        Instantiate(deathGFX, transform.position, Quaternion.identity);
+        GameObject tmpGFX = Instantiate(deathGFX_object, transform.position, Quaternion.identity);
+        Destroy(tmpGFX, 1.5f);
     }
 }

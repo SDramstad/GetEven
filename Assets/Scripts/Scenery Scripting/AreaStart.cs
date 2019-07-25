@@ -16,7 +16,7 @@ public class AreaStart : MonoBehaviour {
 
     [SerializeField]
     private bool DebugModeMaxxedPlayer = false;
-
+    
     void Awake()
     {
         if (DebugModeMaxxedPlayer)
@@ -49,6 +49,7 @@ public class AreaStart : MonoBehaviour {
 
 
     }
+    
 
     public GameObject[] getEntryPoints()
     {

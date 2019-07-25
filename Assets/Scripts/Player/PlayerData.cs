@@ -70,36 +70,16 @@ public class PlayerData {
     public float sk_jump;
 
 
-    public PlayerData()
-    {
-        hp = 100;
-        maxhp = 100;
-        pistolAmmo = Constants.STARTING_PISTOL_AMMO;
-        shotgunAmmo = Constants.STARTING_SHOTGUN_AMMO;
-        rifleAmmo = Constants.STARTING_SMG_AMMO;
-        rocketAmmo = Constants.STARTING_ROCKET_AMMO;
-        hasKnife = false;
-        hasPistol = false;
-        hasShotgun = false;
-        hasRifle = false;
-        hasRocketgun = false;
-        cash = 0;
-        lootValue = 0;
-        difficulty = 2;
-        sk_speed = 5;
-        sk_jump = 10;
-    }
-
-    public PlayerData(bool fullyArmed)
+    public PlayerData(bool fullyArmed = false)
     {
         if (fullyArmed)
         {
             hp = 125;
             maxhp = 125;
-            pistolAmmo = 45;
-            shotgunAmmo = 22;
-            rifleAmmo = 90;
-            rocketAmmo = 35;
+            pistolAmmo = 100;
+            shotgunAmmo = 100;
+            rifleAmmo = 255;
+            rocketAmmo = 80;
             hasKnife = true;
             hasPistol = true;
             hasShotgun = true;
@@ -113,7 +93,7 @@ public class PlayerData {
         }
         else
         {
-            //exact copy of base player data
+
             hp = 100;
             maxhp = 100;
             pistolAmmo = Constants.STARTING_PISTOL_AMMO;
@@ -132,6 +112,49 @@ public class PlayerData {
             sk_jump = 10;
         }
     }
+
+    //public PlayerData(bool fullyArmed)
+    //{
+    //    if (fullyArmed)
+    //    {
+    //        hp = 125;
+    //        maxhp = 125;
+    //        pistolAmmo = 45;
+    //        shotgunAmmo = 22;
+    //        rifleAmmo = 90;
+    //        rocketAmmo = 35;
+    //        hasKnife = true;
+    //        hasPistol = true;
+    //        hasShotgun = true;
+    //        hasRifle = true;
+    //        hasRocketgun = true;
+    //        cash = 500;
+    //        lootValue = 500;
+    //        difficulty = 2;
+    //        sk_speed = 7;
+    //        sk_jump = 10.5f;
+    //    }
+    //    else
+    //    {
+    //        //exact copy of base player data
+    //        hp = 100;
+    //        maxhp = 100;
+    //        pistolAmmo = Constants.STARTING_PISTOL_AMMO;
+    //        shotgunAmmo = Constants.STARTING_SHOTGUN_AMMO;
+    //        rifleAmmo = Constants.STARTING_SMG_AMMO;
+    //        rocketAmmo = Constants.STARTING_ROCKET_AMMO;
+    //        hasKnife = false;
+    //        hasPistol = false;
+    //        hasShotgun = false;
+    //        hasRifle = false;
+    //        hasRocketgun = false;
+    //        cash = 0;
+    //        lootValue = 0;
+    //        difficulty = 2;
+    //        sk_speed = 5;
+    //        sk_jump = 10;
+    //    }
+    //}
 
     public PlayerData(PlayerData clone)
     {
